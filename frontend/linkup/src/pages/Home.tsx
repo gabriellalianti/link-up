@@ -11,6 +11,7 @@ import market from "../assets/market.svg"
 import messages from "../assets/messages.svg"
 import notification from "../assets/notification.svg"
 import logo from "../assets/1.png"
+import logout from "../assets/logout.svg"
 import { useNavigate } from "react-router-dom"
 
 function HomePage() {
