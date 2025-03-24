@@ -1,7 +1,10 @@
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from "../components/components/ui/card";
 import image from "../assets/bg-portal.jpeg";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+    const navigate = useNavigate();
+
     return (
         <div className="flex flex-row items-start w-screen h-screen">
             <div className="flex flex-col items-center justify-center z-10 bg-[#FFE600] h-screen w-[450px]">
@@ -29,9 +32,8 @@ function Login() {
                 </div>
                 <div className="flex flex-col mt-5">
                     <button
-                        type="submit"
-                        form="loginForm"
                         className="py-2 px-4 bg-blue-500 text-white rounded-lg outline-none"
+                        onClick={() => navigate('/home')}
                     >
                         →
                     </button>
