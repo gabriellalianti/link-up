@@ -12,7 +12,10 @@ function Login() {
 
     const onButtonClick = async () => {
        if (username.includes("@ad.unsw.edu.au")) {
-        if (password.length >= 8) {
+        if (username.includes("a.atmadja@ad.unsw.edu.au") && password.length >= 8) {
+            navigate('/newprofile')
+        }
+        else if (password.length >= 8) {
             navigate('/home')
         }
         else {
@@ -68,7 +71,6 @@ function Login() {
                 {   
                     usernameError ? <p className="mt-2 text-red-500 font-semibold"> Not a student email </p> : null
                 }
-
                 {
                     passwordError ? <p className="mt-2 text-red-500 font-semibold"> Invalid password </p> : null
                 }
