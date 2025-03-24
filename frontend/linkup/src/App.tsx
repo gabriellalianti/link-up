@@ -3,6 +3,8 @@ import { FC, ReactNode } from "react";
 import Cookies from "js-cookie"
 
 import Login from "./pages/Login";
+import Marketplace from "./pages/Marketplace";
+
 
 // const ProtectedRoute: FC<{children?: ReactNode}> = ({ children }) => {
 //   const token = Cookies.get("userinfo"); // Retrieve the token cookie
@@ -24,8 +26,9 @@ function App() {
             {/* If not logged in already, redirect to login, otherwise redirect to my calendars.*/}
             
               <Route path="/" element={<Login />}></Route>
-              {/* <Route path="/home" element={<Login />}></Route>
-              <Route path="/market" element={<ProtectedRoute><MyCalendars /></ProtectedRoute>}></Route>
+              {
+                <Route path="/market" element={<Marketplace />}></Route>
+              /* <Route path="/home" element={<Login />}></Route>
               <Route path="/connect" element={<ProtectedRoute><Calendar /></ProtectedRoute>}></Route>
               <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>}></Route>
               <Route path="/messages" element={<Help />}></Route> */}
