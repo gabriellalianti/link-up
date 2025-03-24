@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@components/": ["./src/components/"]
+      },
+      "jsx": "react-jsx", // or "react" depending on the React version you're using
+      "strict": true, // Optional: Enables strict type-checking options
+      "esModuleInterop": true, // Optional: Allows default imports
+      "skipLibCheck": true // Optional: Skips type checking of declaration files
+    }
+}
