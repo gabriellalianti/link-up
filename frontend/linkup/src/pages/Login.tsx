@@ -1,5 +1,6 @@
 import { useState } from "react";
 import image from "../assets/bg-portal.jpeg";
+import logo from "../assets/1.png"
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -37,7 +38,7 @@ function Login() {
         <div className="flex flex-row items-start w-screen h-screen">
             <div className="fixed flex flex-col items-center justify-center z-10 bg-[#FFE600] h-screen w-[450px]">
                 <div className="flex flex-col">
-                    <div className="text-center flex flex-col text-2xl text-black font-bold">LinkUp</div>
+                    <div className="text-center flex flex-col text-3xl text-black font-bold">LinkUp</div>
                     <div className="text-center text-sm font-extralight mt-1">Please enter your credentials to log in</div>
                 </div>
                 <div className="flex flex-col mt-2">

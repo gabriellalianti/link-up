@@ -11,6 +11,7 @@ import market from "../assets/market.svg"
 import messages from "../assets/messages.svg"
 import notification from "../assets/notification.svg"
 import logo from "../assets/1.png"
+import logout from "../assets/logout.svg"
 import search from "../assets/search.svg"
 
 import { useNavigate } from "react-router-dom"
@@ -19,46 +20,52 @@ function HomePage() {
   const navigate = useNavigate();
   return (
     <div className="flex flex-col w-screen h-screen">
-      {/* Nav Bar */}
-      <header className="fixed top-0 left-0 right-0 bg-white border-b flex items-center h-[80px] z-10">
-        <img src={logo} className="ml-5 h-[80px] w-[100px]" alt="Logo" />
-        <div className="flex flex-row w-full justify-center text-sm gap-20">
-          <div 
-            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
-            onClick={() => navigate('/home')}
-          >
-            <img src={home} className="w-[25px]" alt="Home" />
-            <span>Home</span>
+      <header className="fixed bg-white w-full min-h-[8%] border-b justify-center">
+              <img src={logo} className="fixed left-0 ml-5 h-[80px] w-[100px]"/>
+              <div className="flex flex-row w-screen justify-center text-sm mt-2 gap-20">
+                  <div 
+                      className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
+                      onClick={() => navigate('/home')}
+                  >
+                      <img src={home} className="w-[25px]"/>
+                      <span className="mb-1">Home</span>
+                  </div>
+
+                  <div 
+                      className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer "
+                      onClick={() => navigate('/my-links')}
+                  >
+                      <img src={links} className="w-[25px]"/>
+                      <span className="mb-1">My Links</span>
+                  </div>
+
+                  <div 
+                      className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
+                      onClick={() => navigate('/market')}
+                  >
+                      <img src={market} className="w-[25px]"/>
+                      <span className="mb-1">Market</span>
+                  </div>
+
+                  <div 
+                      className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
+                      onClick={() => navigate('/messages')}
+                  >
+                      <img src={messages} className="w-[25px]"/>
+                      
+                      <span className="mb-1">Messages</span>
+                      
+                  </div>
+
+                  <div 
+                      className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
+                      onClick={() => navigate('/notifications')}
+                  >
+                      <img src={notification} className="w-[25px]"/>
+                      <span className="mb-1">Notifications</span>
+                  </div>
+                    <img src={logout} className="fixed right-0 mt-3 h-[30px] w-[100px]" onClick={()=> navigate('/')}/>
           </div>
-          <div 
-            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
-            onClick={() => navigate('/my-links')}
-          >
-            <img src={links} className="w-[25px]" alt="My Links" />
-            <span>My Links</span>
-          </div>
-          <div 
-            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
-            onClick={() => navigate('/market')}
-          >
-            <img src={market} className="w-[25px]" alt="Market" />
-            <span>Market</span>
-          </div>
-          <div 
-            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
-            onClick={() => navigate('/messages')}
-          >
-            <img src={messages} className="w-[25px]" alt="Messages" />
-            <span>Messages</span>
-          </div>
-          <div 
-            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
-            onClick={() => navigate('/notifications')}
-          >
-            <img src={notification} className="w-[25px]" alt="Notifications" />
-            <span>Notifications</span>
-          </div>
-        </div>
       </header>
 
       {/* Main Content */}
