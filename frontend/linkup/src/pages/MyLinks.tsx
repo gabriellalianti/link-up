@@ -103,8 +103,8 @@ function Market () {
                     </div>
                 </header>
 
-                <div className="flex bg-gray-200 py-12 justify-center px-10 gap-6 h-screen">
-                    <div className="flex flex-col min-w-[250px] gap-4">
+                <div className="flex bg-white py-12 justify-center px-10 gap-6 h-screen">
+                    <div className="flex flex-col min-w-[250px] gap-4 mt-10">
                         {/* Profile Box */}
                         <div className="flex flex-col bg-white w-full h-2/3 rounded-xl border">
                             <img className="w-[250px] rounded-xl" src={background}/>
@@ -127,10 +127,10 @@ function Market () {
                             <div className="absolute rounded-full bg-black w-[100px] h-[100px] z-10 ml-[75px] mt-[105px]">
                             </div>    
                         </div>
-                        <div className="flex bg-blue-500 w-full h-1/3 rounded-xl border">
+                        <div className="flex bg-yellow-300 w-full h-1/3 rounded-xl border">
                         </div>
                     </div>
-                    <div className="flex bg-yellow-300 rounded-xl border p-3">
+                    <div className="flex bg-yellow-300 rounded-xl border p-3 mt-10">
                         {/* Grid Parent Box */}
                         <div className="bg-yellow-300 rounded-lg mt-5 grid overflow-y-scroll no-scrollbar grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                             {cards.map((card, index) => (
