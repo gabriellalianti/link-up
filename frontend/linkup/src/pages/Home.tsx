@@ -1,0 +1,124 @@
+import { Card, CardHeader, CardContent, CardFooter } from "../components/components/ui/card";
+import { Button } from "../components/components/ui/button";
+import { Input } from "../components/components/ui/input";
+import { Avatar, AvatarImage, AvatarFallback } from "../components/components/ui/avatar";
+import { ScrollArea } from "../components/components/ui/scroll-area";
+import { Home, MessageCircle, Bell, Users, Edit } from "lucide-react";
+
+function HomePage() {
+  return (
+    <div className="w-screen h-screen flex flex-col">
+      {/* Main Content */}
+      <div className="flex flex-grow p-6 gap-6">
+
+        {/* Left Column */}
+        <Card className="w-1/4 p-4 h-fit">
+            <CardHeader>
+                <h2 className="text-lg font-bold">People You Might Know</h2>
+            </CardHeader>
+            <CardContent>
+                <ul className="space-y-2">
+                    {["Alisha Asparagus", "Benny Broccoli", "Fine shyt", "Smol Waifu", "Simp Slayer"].map((person) => (
+                    <li key={person} className="flex justify-between">
+                        <span>{person}</span>
+                        <Button size="sm">+</Button>
+                    </li>
+                ))}
+                </ul>
+            </CardContent>
+        </Card>
+
+        {/* Middle Column - Posts Section */}
+        <div className="w-[60%] flex flex-col gap-4">
+            {/* Post Input Card */}
+            <Card className="p-4 h-[110px]">
+                <div className="flex items-center gap-4">
+                <Avatar className="self-start">
+                    <AvatarImage src="https://via.placeholder.com/40" />
+                    <AvatarFallback>FN</AvatarFallback>
+                </Avatar>
+            {/* <Input placeholder="Start a post..." className="flex-1" /> */}
+                <Button className="w-[700px] h-[70px] bg-white text-black py-2 px-4 rounded-lg text-left flex justify-start items-start">
+                    <span className="text-left">Start a post...</span>
+                </Button>
+                </div>
+            </Card>
+
+            {/* Posts Feed Section */}
+            <ScrollArea className="h-[calc(100vh-180px)] space-y-4">
+                {[1, 2, 3].map((post) => (
+                    <Card key={post} className="p-2 shadow-md border border-gray-200 mb-4">
+                        <CardHeader>
+                            <div className="flex items-center gap-4">
+                                <Avatar className="w-16 h-16">
+                                    <AvatarImage src="https://via.placeholder.com/40" />
+                                    <AvatarFallback>U</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <h2 className="text-xl font-bold">User {post}</h2>
+                                    <h3 className="text-lg">Studies {post}</h3>
+                                    <p className="text-sm text-gray-500">5 minutes ago</p>
+                                </div>
+                            </div>
+                        </CardHeader>
+                    <CardContent className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mx-6">
+                        <p className="mb-4">This is a sample post content for user {post}. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+                        {/* Image in Post (Inside white box) */}
+                        <img src={`https://kpopping.com/documents/8e/5/800/240607-aespa-Winter-Makestar-Fansign-documents-1(10).jpeg?v=c10dd`} 
+                        alt="Post content"
+                        className="max-h-[300px] w-auto rounded-lg border border-gray-200"/>
+                    </CardContent>
+
+                
+                    <div className="h-4"></div>
+                    <CardFooter className="flex justify-end gap-2">
+                    <Button variant="outline">Like</Button>
+                    <Button variant="outline">Comment</Button>
+                    </CardFooter>
+                </Card>
+            ))}
+            </ScrollArea>
+        </div>
+
+        {/* Right Column - Profile Card */}
+        <Card className="w-1/3 p-1 h-fit relative">
+            <Button className="absolute top-10 right-8">
+                <Edit className="w-5 h-5" />
+            </Button>
+            <CardHeader>
+            <div className="flex flex-col items-left">
+              <Avatar className="w-40 h-40">
+                <AvatarImage src="https://via.placeholder.com/80" />
+                <AvatarFallback>FN</AvatarFallback>
+              </Avatar>
+              <h1 className="text-xl font-bold mt-4">Full Name</h1>
+              <p className="text-sm text-gray-700">Age years old</p>
+            </div>
+            </CardHeader>
+            <CardContent>
+                <div className="flex items-start justify-between">
+                    <div>
+                        <p>Title of Studies</p>
+                        <p>Year of Studies</p>
+                    </div>
+                    {/* THIS PART NEEDS FIXING!!! */}
+                    <div className="flex flex-wrap gap-2 max-w-[50%] justify-end items-start">
+                    {["COMP6080", "COMP3311", "COMP2511"].slice(0, Math.floor(Math.random() * 3) + 1).map((course) => (
+                        <Card key={course} className="px-2 py-1 bg-gray-200 rounded-md text-xs font-semibold flex items-center">
+                        {course}
+                        </Card>
+                    ))}
+                    </div>
+                </div>
+            </CardContent>
+                <div className="bg-white p-4 mt-2 rounded-lg shadow-sm border border-gray-200 w-[90%] mx-auto mb-4">
+                    <h3 className="text-lg font-bold">Bio</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a est et diam ullamcorper.</p>
+                </div>
+        </Card>
+        </div>
+    </div>
+    );
+}
+
+export default HomePage;

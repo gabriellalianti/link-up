@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { FC, ReactNode } from "react";
-import Cookies from "js-cookie"
 
 import Login from "./pages/Login";
+import Home from "./pages/Home";
 
 // const ProtectedRoute: FC<{children?: ReactNode}> = ({ children }) => {
 //   const token = Cookies.get("userinfo"); // Retrieve the token cookie
@@ -23,8 +23,9 @@ function App() {
           <Routes>
             {/* If not logged in already, redirect to login, otherwise redirect to my calendars.*/}
             
-              <Route path="/" element={<Login />}></Route>
-              {/* <Route path="/home" element={<Login />}></Route>
+              
+              <Route path="/" element={<Home />}></Route>
+              {/*
               <Route path="/market" element={<ProtectedRoute><MyCalendars /></ProtectedRoute>}></Route>
               <Route path="/connect" element={<ProtectedRoute><Calendar /></ProtectedRoute>}></Route>
               <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>}></Route>
