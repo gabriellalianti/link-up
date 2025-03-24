@@ -11,11 +11,11 @@ function Market () {
     return (
         <>
             <div className="flex flex-col w-screen h-screen">
-                <header className="flex flex-row bg-white w-full min-h-[8%] border-b justify-center">
+                <header className="fixed bg-white w-full min-h-[8%] border-b justify-center">
                         <img src={logo} className="fixed left-0 ml-5 h-[80px] w-[100px]"/>
                         <div className="flex flex-row w-screen justify-center text-sm mt-2 gap-20">
                             <div 
-                                className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
+                                className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
                                 onClick={() => navigate('/home')}
                             >
                                 <img src={home} className="w-[25px]"/>
@@ -23,7 +23,7 @@ function Market () {
                             </div>
         
                             <div 
-                                className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer "
+                                className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer "
                                 onClick={() => navigate('/my-links')}
                             >
                                 <img src={links} className="w-[25px]"/>
@@ -31,7 +31,7 @@ function Market () {
                             </div>
         
                             <div 
-                                className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
+                                className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
                                 onClick={() => navigate('/market')}
                             >
                                 <img src={market} className="w-[25px]"/>
@@ -39,7 +39,7 @@ function Market () {
                             </div>
         
                             <div 
-                                className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
+                                className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
                                 onClick={() => navigate('/messages')}
                             >
                                 <img src={messages} className="w-[25px]"/>
@@ -49,7 +49,7 @@ function Market () {
                             </div>
         
                             <div 
-                                className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
+                                className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
                                 onClick={() => navigate('/notifications')}
                             >
                                 <img src={notification} className="w-[25px]"/>
