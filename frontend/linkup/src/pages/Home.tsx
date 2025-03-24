@@ -5,120 +5,176 @@ import { Avatar, AvatarImage, AvatarFallback } from "../components/components/ui
 import { ScrollArea } from "../components/components/ui/scroll-area";
 import { Home, MessageCircle, Bell, Users, Edit } from "lucide-react";
 
-function HomePage() {
-  return (
-    <div className="w-screen h-screen flex flex-col">
-      {/* Main Content */}
-      <div className="flex flex-grow p-6 gap-6">
+import home from "../assets/home.svg"
+import links from "../assets/links.svg"
+import market from "../assets/market.svg"
+import messages from "../assets/messages.svg"
+import notification from "../assets/notification.svg"
+import logo from "../assets/1.png"
+import { useNavigate } from "react-router-dom"
 
-        {/* Left Column */}
-        <Card className="w-1/4 p-4 h-fit">
+function HomePage() {
+  const navigate = useNavigate();
+  return (
+    <div className="flex flex-col w-screen h-screen">
+      {/* Nav Bar */}
+      <header className="fixed top-0 left-0 right-0 bg-white border-b flex items-center h-[80px] z-10">
+        <img src={logo} className="ml-5 h-[80px] w-[100px]" alt="Logo" />
+        <div className="flex flex-row w-full justify-center text-sm gap-20">
+          <div 
+            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
+            onClick={() => navigate('/home')}
+          >
+            <img src={home} className="w-[25px]" alt="Home" />
+            <span>Home</span>
+          </div>
+          <div 
+            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
+            onClick={() => navigate('/my-links')}
+          >
+            <img src={links} className="w-[25px]" alt="My Links" />
+            <span>My Links</span>
+          </div>
+          <div 
+            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
+            onClick={() => navigate('/market')}
+          >
+            <img src={market} className="w-[25px]" alt="Market" />
+            <span>Market</span>
+          </div>
+          <div 
+            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
+            onClick={() => navigate('/messages')}
+          >
+            <img src={messages} className="w-[25px]" alt="Messages" />
+            <span>Messages</span>
+          </div>
+          <div 
+            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
+            onClick={() => navigate('/notifications')}
+          >
+            <img src={notification} className="w-[25px]" alt="Notifications" />
+            <span>Notifications</span>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="mt-[80px] flex flex-col flex-grow overflow-y-auto">
+        <div className="flex flex-grow p-6 gap-6">
+          {/* Left Column */}
+          <Card className="w-1/4 p-4 h-fit">
             <CardHeader>
-                <h2 className="text-lg font-bold">People You Might Know</h2>
+              <h2 className="text-lg font-bold">People You Might Know</h2>
             </CardHeader>
             <CardContent>
-                <ul className="space-y-2">
-                    {["Alisha Asparagus", "Benny Broccoli", "Fine shyt", "Smol Waifu", "Simp Slayer"].map((person) => (
-                    <li key={person} className="flex justify-between">
-                        <span>{person}</span>
-                        <Button size="sm">+</Button>
-                    </li>
+              <ul className="space-y-2">
+                {["Alisha Asparagus", "Benny Broccoli", "Fine shyt", "Smol Waifu", "Simp Slayer"].map((person) => (
+                  <li key={person} className="flex justify-between">
+                    <span>{person}</span>
+                    <Button size="sm">+</Button>
+                  </li>
                 ))}
-                </ul>
+              </ul>
             </CardContent>
-        </Card>
+          </Card>
 
-        {/* Middle Column - Posts Section */}
-        <div className="w-[60%] flex flex-col gap-4">
+          {/* Middle Column - Posts Section */}
+          <div className="w-[60%] flex flex-col gap-4">
             {/* Post Input Card */}
             <Card className="p-4 h-[110px]">
-                <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4">
                 <Avatar className="self-start">
-                    <AvatarImage src="https://via.placeholder.com/40" />
-                    <AvatarFallback>FN</AvatarFallback>
+                  <AvatarImage src="https://via.placeholder.com/40" />
+                  <AvatarFallback>FN</AvatarFallback>
                 </Avatar>
-            {/* <Input placeholder="Start a post..." className="flex-1" /> */}
-                <Button className="w-[700px] h-[70px] bg-white text-black py-2 px-4 rounded-lg text-left flex justify-start items-start">
-                    <span className="text-left">Start a post...</span>
+                <Button className="w-full h-[70px] bg-white text-black py-2 px-4 rounded-lg text-left flex justify-start items-center">
+                  <span>Start a post...</span>
                 </Button>
-                </div>
+              </div>
             </Card>
 
             {/* Posts Feed Section */}
             <ScrollArea className="h-[calc(100vh-180px)] space-y-4">
-                {[1, 2, 3].map((post) => (
-                    <Card key={post} className="p-2 shadow-md border border-gray-200 mb-4">
-                        <CardHeader>
-                            <div className="flex items-center gap-4">
-                                <Avatar className="w-16 h-16">
-                                    <AvatarImage src="https://via.placeholder.com/40" />
-                                    <AvatarFallback>U</AvatarFallback>
-                                </Avatar>
-                                <div>
-                                    <h2 className="text-xl font-bold">User {post}</h2>
-                                    <h3 className="text-lg">Studies {post}</h3>
-                                    <p className="text-sm text-gray-500">5 minutes ago</p>
-                                </div>
-                            </div>
-                        </CardHeader>
-                    <CardContent className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mx-6">
-                        <p className="mb-4">This is a sample post content for user {post}. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
-                        {/* Image in Post (Inside white box) */}
-                        <img src={`https://kpopping.com/documents/8e/5/800/240607-aespa-Winter-Makestar-Fansign-documents-1(10).jpeg?v=c10dd`} 
-                        alt="Post content"
-                        className="max-h-[300px] w-auto rounded-lg border border-gray-200"/>
-                    </CardContent>
-
-                
-                    <div className="h-4"></div>
-                    <CardFooter className="flex justify-end gap-2">
+              {[1, 2, 3].map((post) => (
+                <Card key={post} className="p-2 shadow-md border border-gray-200 mb-4">
+                  <CardHeader>
+                    <div className="flex items-center gap-4">
+                      <Avatar className="w-16 h-16">
+                        <AvatarImage src="https://via.placeholder.com/40" />
+                        <AvatarFallback>U</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <h2 className="text-xl font-bold">User {post}</h2>
+                        <h3 className="text-lg">Studies {post}</h3>
+                        <p className="text-sm text-gray-500">5 minutes ago</p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mx-6">
+                    <p className="mb-4">
+                      This is a sample post content for user {post}. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..."
+                    </p>
+                    {/* Post Image */}
+                    <img
+                      src="https://kpopping.com/documents/8e/5/800/240607-aespa-Winter-Makestar-Fansign-documents-1(10).jpeg?v=c10dd"
+                      alt="Post content"
+                      className="max-h-[300px] w-auto rounded-lg border border-gray-200"
+                    />
+                  </CardContent>
+                  <div className="h-4"></div>
+                  <CardFooter className="flex justify-end gap-2">
                     <Button variant="outline">Like</Button>
                     <Button variant="outline">Comment</Button>
-                    </CardFooter>
+                  </CardFooter>
                 </Card>
-            ))}
+              ))}
             </ScrollArea>
-        </div>
+          </div>
 
-        {/* Right Column - Profile Card */}
-        <Card className="w-1/3 p-1 h-fit relative">
+          {/* Right Column - Profile Card */}
+          <Card className="w-1/3 p-1 h-fit relative">
             <Button className="absolute top-10 right-8">
-                <Edit className="w-5 h-5" />
+              <Edit className="w-5 h-5" />
             </Button>
             <CardHeader>
-            <div className="flex flex-col items-left">
-              <Avatar className="w-40 h-40">
-                <AvatarImage src="https://via.placeholder.com/80" />
-                <AvatarFallback>FN</AvatarFallback>
-              </Avatar>
-              <h1 className="text-xl font-bold mt-4">Full Name</h1>
-              <p className="text-sm text-gray-700">Age years old</p>
-            </div>
+              <div className="flex flex-col items-left">
+                <Avatar className="w-40 h-40">
+                  <AvatarImage src="https://via.placeholder.com/80" />
+                  <AvatarFallback>FN</AvatarFallback>
+                </Avatar>
+                <h1 className="text-xl font-bold mt-4">Full Name</h1>
+                <p className="text-sm text-gray-700">Age years old</p>
+              </div>
             </CardHeader>
             <CardContent>
-                <div className="flex items-start justify-between">
-                    <div>
-                        <p>Title of Studies</p>
-                        <p>Year of Studies</p>
-                    </div>
-                    {/* THIS PART NEEDS FIXING!!! */}
-                    <div className="flex flex-wrap gap-2 max-w-[50%] justify-end items-start">
-                    {["COMP6080", "COMP3311", "COMP2511"].slice(0, Math.floor(Math.random() * 3) + 1).map((course) => (
-                        <Card key={course} className="px-2 py-1 bg-gray-200 rounded-md text-xs font-semibold flex items-center">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p>Title of Studies</p>
+                  <p>Year of Studies</p>
+                </div>
+                <div className="flex flex-wrap gap-2 max-w-[50%] justify-end items-start">
+                  {["COMP6080", "COMP3311", "COMP2511"]
+                    .slice(0, Math.floor(Math.random() * 3) + 1)
+                    .map((course) => (
+                      <Card key={course} className="px-2 py-1 bg-gray-200 rounded-md text-xs font-semibold flex items-center">
                         {course}
-                        </Card>
-                    ))}
-                    </div>
+                      </Card>
+                  ))}
                 </div>
+              </div>
             </CardContent>
-                <div className="bg-white p-4 mt-2 rounded-lg shadow-sm border border-gray-200 w-[90%] mx-auto mb-4">
-                    <h3 className="text-lg font-bold">Bio</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a est et diam ullamcorper.</p>
-                </div>
-        </Card>
+            <div className="bg-white p-4 mt-2 rounded-lg shadow-sm border border-gray-200 w-[90%] mx-auto mb-4">
+              <h3 className="text-lg font-bold">Bio</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a est et diam ullamcorper.</p>
+            </div>
+          </Card>
         </div>
+      </main>
     </div>
-    );
+  );
 }
 
 export default HomePage;
+
+  

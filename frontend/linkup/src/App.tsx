@@ -3,6 +3,11 @@ import { FC, ReactNode } from "react";
 
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import Market from "./pages/Market";
+import MyLinks from "./pages/MyLinks";
+import Messages from "./pages/Messages";
+import Notifications from "./pages/Notifications";
+
 
 // const ProtectedRoute: FC<{children?: ReactNode}> = ({ children }) => {
 //   const token = Cookies.get("userinfo"); // Retrieve the token cookie
@@ -23,13 +28,13 @@ function App() {
           <Routes>
             {/* If not logged in already, redirect to login, otherwise redirect to my calendars.*/}
             
-              
-              <Route path="/" element={<Home />}></Route>
-              {/*
-              <Route path="/market" element={<ProtectedRoute><MyCalendars /></ProtectedRoute>}></Route>
-              <Route path="/connect" element={<ProtectedRoute><Calendar /></ProtectedRoute>}></Route>
-              <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>}></Route>
-              <Route path="/messages" element={<Help />}></Route> */}
+              <Route path="/" element={<Login />}></Route>
+              <Route path="/market" element={<Market />}></Route>
+              <Route path="/home" element={<Home />}></Route>
+              <Route path="/my-links" element={<MyLinks />}></Route>
+              <Route path="/notifications" element={<Notifications />}></Route>
+              <Route path="/messages" element={<Messages />}></Route>
+
           </Routes>
         </div>
       </BrowserRouter>
@@ -38,3 +43,6 @@ function App() {
 }
 
 export default App
+
+
+              
