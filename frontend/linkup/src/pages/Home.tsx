@@ -4,6 +4,7 @@ import market from "../assets/market.svg"
 import messages from "../assets/messages.svg"
 import notification from "../assets/notification.svg"
 import logo from "../assets/1.png"
+import logout from "../assets/logout.svg"
 import { useNavigate } from "react-router-dom"
 
 function Market () {
@@ -56,7 +57,11 @@ function Market () {
                                 <img src={notification} className="w-[25px]"/>
                                 <span className="mb-1">Notifications</span>
                             </div>
-                    </div>
+                             <img src={logout} className="fixed right-0 mt-3 h-[30px] w-[100px] cursor-pointer " onClick={()=> navigate('/')}/>
+                        </div>
+                        <div className="">
+
+                        </div>
                 </header>
 
                 <div className="flex flex-col bg-gray-200 w-full h-full overflow-y-scroll">
