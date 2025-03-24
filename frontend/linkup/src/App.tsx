@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { FC, ReactNode } from "react";
 
-
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Market from "./pages/Market";
@@ -28,7 +27,7 @@ function App() {
         <div>
           <Routes>
             {/* If not logged in already, redirect to login, otherwise redirect to my calendars.*/}
-            
+
               <Route path="/" element={<Login />}></Route>
               <Route path="/newprofile" element={<FirstProfile />}> </Route>
               <Route path="/market" element={<Market />}></Route>
