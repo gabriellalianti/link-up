@@ -4,6 +4,8 @@
       "paths": {
         "@components/*": ["./src/components/*"]
       },
+      "target": "es2016",
+      "lib": ["es2016", "dom"],
       "jsx": "react-jsx", // or "react" depending on the React version you're using
       "strict": true, // Optional: Enables strict type-checking options
       "esModuleInterop": true, // Optional: Allows default imports
