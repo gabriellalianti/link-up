@@ -93,7 +93,7 @@ function SinglePost({ postData }) {
   };
 
   return (
-    <Card className="p-2 shadow-md border border-gray-200 mb-4">
+    <Card className="p-0 shadow-md border border-gray-200 mb-4">
       <CardHeader>
         <div className="flex items-center gap-4">
           <Avatar className="w-16 h-16">

@@ -90,21 +90,7 @@ function MiddleColumn() {
                   )}
                 </div>
                 <div className="flex flex-row gap-4">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline">Select Topic</Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-40">
-                      <DropdownMenuLabel>Options</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => alert("Market clicked")}>
-                        Market
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => alert("Socials clicked")}>
-                        Socials
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  
                   {/* Add Media Button */}
                   <Button variant="outline" onClick={() => document.getElementById("mediaInput").click()}>
                     Add Media
