@@ -57,7 +57,9 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-
+.custom-date::-webkit-calendar-picker-indicator {
+  filter: brightness(0) saturate(100%);
+}
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -138,4 +140,16 @@ button:focus-visible {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+ /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+}
 }

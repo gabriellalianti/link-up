@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 function FirstProfile() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        profileName: "",
+        name: "",
         yearOfStudy: "",
         degree: "",
-        yearOfBirth: "",
+        dateOfBirth: "",
         bio: "",
         courses: "",
     });
@@ -25,10 +25,11 @@ function FirstProfile() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
+                credentials: 'include',
             });
 
             if (response.ok) {
-                navigate("/home"); 
+                navigate('/home');
             }
         } catch (error) {
             console.error("Error submitting form:", error);
@@ -45,8 +46,8 @@ function FirstProfile() {
                 >
                     <p className="gap-2 mt-3 mb-2 font-bold text-xl ">Create Your Profile</p>
                     
-                    <input name="profileName" placeholder="Profile Name" className="mb-5 w-full p-2 border rounded text-black bg-white"
-                        value={formData.profileName} onChange={handleChange} required />
+                    <input name="name" placeholder="Profile Name" className="mb-5 w-full p-2 border rounded text-black bg-white"
+                        value={formData.name} onChange={handleChange} required />
 
                     <input name="yearOfStudy" placeholder="Year Of Study" className="mb-5 w-full p-2 border rounded bg-white"
                         value={formData.yearOfStudy} onChange={handleChange} required />
@@ -55,9 +56,9 @@ function FirstProfile() {
                         value={formData.degree} onChange={handleChange} required />
 
                     <div className="flex justify-between items-baseline border rounded mb-5 p-2">
-                        <p className="text-base font-thin">Year Of Birth</p>
-                        <input name="yearOfBirth" type="date" className="w-2/5 rounded px-2 cursor-pointer hover:bg-gray-100 bg-white"
-                            value={formData.yearOfBirth} onChange={handleChange} required />
+                        <p className="text-base font-thin">Date Of Birth</p>
+                        <input name="dateOfBirth" type="date" className="w-2/5 rounded px-2 cursor-pointer hover:bg-gray-100 bg-white"
+                            value={formData.dateOfBirth} onChange={handleChange} required />
                     </div>
 
                     <textarea name="bio" placeholder="Bio" className="mb-5 w-full p-2 border rounded bg-white h-[160px]"

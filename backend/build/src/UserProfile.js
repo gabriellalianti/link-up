@@ -33,18 +33,44 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Market = exports.Post = exports.UserProfile = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-// Example MongoScheme
+// MongoDB Schema for user profile
 const UserProfileSchema = new mongoose_1.Schema({
-    profileName: { type: String, required: true },
+    userId: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
     yearOfStudy: { type: String, required: true },
     degree: { type: String, required: true },
-    yearOfBirth: { type: Date, required: true },
+    dateOfBirth: { type: Date, required: true },
+    email: { type: String, required: true },
     bio: { type: String, required: true },
-    courses: { type: String, required: true },
+    courses: { type: [String], required: true },
+    links: { type: [String], default: [] },
+    password: { type: String, required: true },
     profilePicture: { type: String },
-    userId: { type: String, required: true, unique: true }
+    backgroundPicture: { type: String },
 });
 // Create and export the Mongoose model
-const UserProfile = mongoose_1.default.model("UserProfile", UserProfileSchema, "Users");
-exports.default = UserProfile;
+exports.UserProfile = mongoose_1.default.model("UserProfile", UserProfileSchema, "Users");
+exports.default = exports.UserProfile;
+const PostSchema = new mongoose_1.Schema({
+    username: { type: String, required: true },
+    title: { type: String, required: true },
+    captions: { type: String, required: true },
+    photo: { type: String, default: "" },
+    timestamp: { type: String, default: Date.now().toLocaleString() },
+    likes: { type: Number, default: 0 },
+    comments: { type: [String], default: [] }
+});
+exports.Post = mongoose_1.default.model("Post", PostSchema, "Posts");
+const MarketSchema = new mongoose_1.Schema({
+    username: { type: String, required: true },
+    productName: { type: String, required: true },
+    description: { type: String, required: true },
+    photo: { type: String, required: true, default: "" },
+    timestamp: { type: String, default: Date.now().toLocaleString() },
+    price: { type: Number, required: true, default: 0 },
+    tags: { type: [String], default: [] },
+    star: { type: [] }
+});
+exports.Market = mongoose_1.default.model("Market", MarketSchema, "Market");

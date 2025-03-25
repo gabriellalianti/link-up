@@ -4,7 +4,7 @@ import { Input } from "../components/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "../components/components/ui/avatar";
 import { ScrollArea } from "../components/components/ui/scroll-area";
 import { Home, MessageCircle, Bell, Users, Edit } from "lucide-react";
-import { TagsInput } from "react-tag-input-component";
+// import { TagsInput } from "react-tag-input-component";
 import StarRatings from 'react-star-ratings';
 import home from "../assets/home.svg"
 import links from "../assets/links.svg"
@@ -143,7 +143,16 @@ const handleSubmit = async (e: React.FormEvent) => {
         console.error("Error submitting form:", error);
     }
 };
-  
+
+  const [selectedMedia, setSelectedMedia] = useState(null);
+  const handleMediaChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Convert the file into a temporary URL for preview
+      setSelectedMedia(URL.createObjectURL(file));
+    }
+  };
+
   return (
     <div className="flex flex-col w-screen h-screen">
       <header className="fixed bg-white w-full min-h-[8%] border-b justify-center">
@@ -166,7 +175,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   </div>
 
                   <div 
-                      className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
+                      className="flex flex-col justify-center items-center rounded-xl border-b-2 border-black  w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
                       onClick={() => navigate('/market')}
                   >
                       <img src={market} className="w-[25px]"/>
@@ -321,13 +330,6 @@ const handleSubmit = async (e: React.FormEvent) => {
                   value={formData.price} onChange={handleChange} required type="number" min="0"/>
                   <input name="image" placeholder="Image Link" className="mb-5 w-full p-2 border rounded text-black bg-white"
                   value={formData.image} onChange={handleChange} required />
-                  <TagsInput
-                    value={selected}
-                    onChange={setSelected}
-                    name="Tags"
-                    placeHolder="Enter Tags"
-                  />
-
                   <button type="submit" className="py-2 px-4 bg-yellow-300 rounded-lg w-[150px] h-[50px] mt-6">
                       <p>Submit Listing</p>
                   </button>
