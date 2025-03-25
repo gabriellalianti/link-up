@@ -75,6 +75,7 @@ function CreateProfile() {
         <CardHeader>
           <h2 className="text-2xl font-bold mb-4 text-left">Create Your Profile</h2>
         </CardHeader>
+
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex flex-col md:flex-row gap-4">
@@ -117,7 +118,7 @@ function CreateProfile() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Courses (up to 3)</label>
+                  <label className="block text-sm font-medium text-gray-700">Courses (up to 4 - e.g. COMP1511)</label>
                   <div className="flex gap-2">
                     {formData.courses.map((course, index) => (
                       <Input key={index} value={course} onChange={(e) => handleCourseChange(index, e.target.value)} placeholder={`Course ${index + 1}`} className="flex-1" />

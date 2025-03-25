@@ -4,6 +4,7 @@ import { Input } from "../components/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "../components/components/ui/avatar";
 import { ScrollArea } from "../components/components/ui/scroll-area";
 import { Home, MessageCircle, Bell, Users, Edit } from "lucide-react";
+import backgroundImage from "../assets/backgroundProfile.jpeg"
 
 import {
   Dialog,
@@ -188,11 +189,12 @@ function HomePage() {
       {/* Main Content */}
       <main className="pt-[80px] flex w-full h-full bg-gray-100">
         <div className="flex flex-grow p-6 gap-6">
-          {/* Left Column Card */}
+          {/* Left Column Card - Recommendation Lists */}
           <Card className="w-1/4 p-1 h-fit">
             <CardHeader>
               <h2 className="text-lg font-bold">People You Might Know</h2>
             </CardHeader>
+
             <CardContent>
 						<ul className="space-y-4">
 							{people.map((person) => (
@@ -205,7 +207,7 @@ function HomePage() {
 										<span className="ml-2">{person.name}</span>
 									</div>
 									{/* Add Button */}
-									<Button size="sm" onClick={() => handleRemove(person.name)}>+</Button>
+									<Button size="sm" className="bg-white text-black" onClick={() => handleRemove(person.name)}>+</Button>
 								</li>
       				))}
     				</ul>
@@ -217,9 +219,17 @@ function HomePage() {
 
           {/* Right Column - Profile Card */}
           <Card className="w-1/3 p-1 h-fit relative">
-            <Button className="absolute top-10 right-8">
-              <Edit className="w-5 h-5" />
-            </Button>
+          <div className="w-full max-h-[150px] overflow-hidden rounded-t-xl">
+							<img 
+								className="w-full object-cover" 
+								src={backgroundImage}/>
+						</div>
+						
+						<div onClick={() => navigate('/update-profile')}>
+							<Button className="absolute top-48 right-5 bg-white">
+								<Edit className="w-5 h-5 bg-black" />
+							</Button>
+						</div>
             <CardHeader>
               <div className="flex flex-col items-left">
                 <Avatar className="w-40 h-40">

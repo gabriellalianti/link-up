@@ -209,7 +209,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
           {/* Left Column */}
           <div className="flex flex-col h-fit min-w-[300px]">
-          <Card className="p-4 h-[80px] mb-8 bg-gray-200 cursor-pointer flex justify-center items-center" onClick={() => setCreatePopup(true)}>
+          <Card className="p-4 h-fit mb-6 bg-gray-200 cursor-pointer" onClick={() => setCreatePopup(true)}>
             <Edit className="w-5 h-5 inline-block mr-2 pb-[2px]" />
             Create New Listing
           </Card>
@@ -317,65 +317,26 @@ const handleSubmit = async (e: React.FormEvent) => {
       </main>
 
       {
-        createPopup
-          ? <div className="fixed flex inset-0 bg-black/30 w-full h-full z-20 items-center justify-center" 
-            onClick={() => {
-              setCreatePopup(false);
-              setSelectedMedia(null);
-              setFormData({
-                product: "",
-                description: "",
-                price: "",
-                tags: []
-              })
-            }}>
-            <div className="flex flex-col bg-white rounded-xl w-[700px] text-black p-6"
-              onClick={(e) => e.stopPropagation()}>
-              <form onSubmit={handleSubmit}>
-                <input name="product" placeholder="Product" className="mb-3 w-full p-2 border rounded text-black bg-white"
-                        value={formData.product} onChange={handleChange} required />
-                <textarea name="description" placeholder="Product Description" className="mb-3 w-full p-2 border rounded text-black bg-white"
-                value={formData.description} onChange={handleChange} required rows="3"/>
-                <input name="price" placeholder="Price" className="mb-3 w-full p-2 border rounded text-black bg-white"
-                value={formData.price} onChange={handleChange} required type="number" min="0"/>
-                {/* <TagsInput
-                  value={selected}
-                  onChange={setSelected}
-                  name="Tags"
-                  placeHolder="Enter Tags"
-                  classNames={{
-                    input: "bg-white text-black rounded-lg border border-gray-300 placeholder-gray-400",
-                  }}
-                /> */}
-                <div className="flex flex-row items-end justify-between w-full mt-3">
-                  <div>
-                    {selectedMedia && (
-                    <img
-                      src={selectedMedia}
-                      alt="Selected Media"
-                      className="max-h-[200px] w-auto rounded-lg border border-gray-200 mb-3"
-                    />
-                    )}
-                    <Button variant="outline" className="mb-1" onClick={() => document.getElementById("mediaInput").click()}>
-                      Add Media
-                    </Button>
-                    {/* Hidden file input */}
-                    <input
-                      id="mediaInput"
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={handleMediaChange}
-                    />
-                  </div>
-                  <button type="submit" className="py-2 px-4 bg-yellow-300 rounded-lg w-[150px] h-[50px]">
-                    <p>Submit Listing</p>
+          createPopup
+            ? <div className="fixed flex inset-0 bg-black/30 w-full h-full z-20 items-center justify-center" onClick={() => { setCreatePopup(false) }}>
+              <div className="flex flex-col bg-white rounded-xl w-[700px] text-black p-6"
+                onClick={(e) => e.stopPropagation()}>
+                <form onSubmit={handleSubmit}>
+                  <input name="product" placeholder="Product" className="mb-5 w-full p-2 border rounded text-black bg-white"
+                          value={formData.product} onChange={handleChange} required />
+                  <textarea name="description" placeholder="Product Description" className="mb-5 w-full p-2 border rounded text-black bg-white"
+                  value={formData.description} onChange={handleChange} required rows="3"/>
+                  <input name="price" placeholder="Price" className="mb-5 w-full p-2 border rounded text-black bg-white"
+                  value={formData.price} onChange={handleChange} required type="number" min="0"/>
+                  <input name="image" placeholder="Image Link" className="mb-5 w-full p-2 border rounded text-black bg-white"
+                  value={formData.image} onChange={handleChange} required />
+                  <button type="submit" className="py-2 px-4 bg-yellow-300 rounded-lg w-[150px] h-[50px] mt-6">
+                      <p>Submit Listing</p>
                   </button>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
-          </div>
-          : null
+            : null
         }
     </div>
   );

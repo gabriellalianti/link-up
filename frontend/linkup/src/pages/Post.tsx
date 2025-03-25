@@ -64,7 +64,7 @@ function MiddleColumn() {
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
               <Button className="w-full h-[70px] bg-white text-black py-2 px-4 rounded-lg text-left flex justify-start items-start hover:bg-white">
-                <span className="text-left">Start a post...</span>
+                <span className="text-left py-2">Start a post...</span>
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[1000px] bg-white">
@@ -90,21 +90,7 @@ function MiddleColumn() {
                   )}
                 </div>
                 <div className="flex flex-row gap-4">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline">Select Topic</Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-40">
-                      <DropdownMenuLabel>Options</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => alert("Market clicked")}>
-                        Market
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => alert("Socials clicked")}>
-                        Socials
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  
                   {/* Add Media Button */}
                   <Button variant="outline" onClick={() => document.getElementById("mediaInput").click()}>
                     Add Media
