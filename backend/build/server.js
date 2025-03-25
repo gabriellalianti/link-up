@@ -24,12 +24,37 @@ app.use((0, cors_1.default)({
     methods: ["GET", "POST", "PUT", "DELETE",],
     credentials: true
 }));
-app.use(express_1.default.json());
+app.use(express_1.default.json({ limit: "100mb" })); // Increase limit (default is ~1MB)
+app.use(express_1.default.urlencoded({ extended: true, limit: "100mb" }));
 const uri = "mongodb+srv://atmandy345:andy0304@linkup.z9xlt.mongodb.net/LinkUp?retryWrites=true&w=majority&appName=LinkUp";
 // MongoDB Connection
 mongoose_1.default.connect(uri)
     .then(() => console.log("MongoDB Connected"))
     .catch(err => console.error("Error connecting to MongoDB:", err));
+app.post("/api/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email, password } = req.body;
+        console.log(email);
+        console.log(password);
+        // Validate input
+        if (!email || !password) {
+            return res.status(400).json({ error: "Email and password are required" });
+        }
+        const user = yield UserProfile_1.default.findOne({ email });
+        if (!user) {
+            return res.status(401).json({ error: "Invalid email or password" });
+        }
+        console.log(user.password);
+        if (user.password !== password) {
+            return res.status(401).json({ error: "Invalid email or password" });
+        }
+        // Login successful
+        res.status(200).json({ message: "Login successful", user });
+    }
+    catch (error) {
+        res.status(400).json({ error: "Invalid Login", details: error });
+    }
+}));
 // Profile
 app.post("/api/profile", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

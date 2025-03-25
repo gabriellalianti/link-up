@@ -41,9 +41,11 @@ const UserProfileSchema = new mongoose_1.Schema({
     yearOfStudy: { type: String, required: true },
     degree: { type: String, required: true },
     dateOfBirth: { type: Date, required: true },
+    email: { type: String, required: true },
     bio: { type: String, required: true },
     courses: { type: [String], required: true },
     links: { type: [String], default: [] },
+    password: { type: String, required: true },
     profilePicture: { type: String },
     backgroundPicture: { type: String },
 });
