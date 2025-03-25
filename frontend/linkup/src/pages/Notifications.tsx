@@ -7,8 +7,8 @@ import logo from "../assets/1.png"
 import logout from "../assets/logout.svg"
 import { useNavigate } from "react-router-dom"
 import avatar from "../assets/avatar-1.jpg"
-
-
+import Cookies from "js-cookie"
+import { jwtDecode } from "jwt-decode"
 import { Card, CardHeader, CardContent, CardFooter } from "../components/components/ui/card";
 import { Button } from "../components/components/ui/button";
 import { Input } from "../components/components/ui/input";
@@ -17,6 +17,7 @@ import { ScrollArea } from "../components/components/ui/scroll-area";
 import { Home, MessageCircle, Bell, Users, Edit } from "lucide-react";
 import StarRatings from 'react-star-ratings';
 import search from "../assets/search.svg"
+import { useEffect, useState } from "react"
 
 function Market () {
     const navigate = useNavigate();
@@ -26,6 +27,65 @@ function Market () {
             {name: "Lebron Huang", pfp: avatar, notification: "replied to your market message (LV Supreme Leather Bomber Jacket)"},
             {name: "Alisha Asparagus", pfp: avatar, notification: "liked your post (Why is everyone doing CS?  This is a genuine question. T...)"}
         ]
+    const [profile, setProfile] = useState<{
+        bio: string,
+        courses: string[],
+        name: string,
+        degree: string,
+        userId: string,
+        dateOfBirth: string,
+        yearOfStudy: string,
+        email: string,
+        profilePicture: string,
+        links: string[],
+        __v: string,
+        _id: string,
+      }>({
+        bio: "",
+        courses: [],
+        degree: "",
+        name: "",
+        userId: "",
+        dateOfBirth: "",
+        yearOfStudy: "",
+        email: "",
+        profilePicture: "",
+        links: [],
+        __v: "",
+        _id: ""
+      });
+    
+      useEffect (() => {
+        const fetchProfile = async () => {
+          try {
+              const cooks = Cookies.get("token")
+              if (cooks) {
+                const decodedToken = jwtDecode(cooks);
+                const userId = decodedToken.userId;
+                console.log(userId);
+                const response = await fetch(`http://localhost:5001/api/getProfile/${userId}`, {
+                  method: "GET",
+                  headers: { "Content-Type": "application/json" },
+                });
+      
+                if (response.ok) {
+                    const data = await response.json();  
+                    const date = new Date(data.dateOfBirth);
+    
+                    const formattedDate = date.toISOString().split('T')[0];
+    
+                    data.dateOfBirth = formattedDate;
+                    console.log(data.profilePicture)
+                    console.log(data);
+                    setProfile(data);
+                }
+              }
+          } catch (error) {
+              console.error("Error submitting form:", error);
+          }
+        }
+        fetchProfile();
+      }, [])
     return (
         <>
             <div className="flex flex-col w-screen h-screen">
@@ -68,7 +128,7 @@ function Market () {
                             </div>
         
                             <div 
-                                className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
+                                className="flex flex-col justify-center items-center border-b-2 border-black rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
                                 onClick={() => navigate('/notifications')}
                             >
                                 <img src={notification} className="w-[25px]"/>
@@ -117,22 +177,21 @@ function Market () {
                         <CardHeader>
                         <div className="flex flex-col items-left">
                             <Avatar className="w-40 h-40">
-                            <AvatarImage src="https://via.placeholder.com/80" />
+                            <AvatarImage src={profile.profilePicture} />
                             <AvatarFallback>FN</AvatarFallback>
                             </Avatar>
-                            <h1 className="text-xl font-bold mt-4">Full Name</h1>
-                            <p className="text-sm text-gray-700">Age years old</p>
+                            <h1 className="text-xl font-bold mt-4">{profile.name}</h1>
+                            <p className="text-sm text-gray-700">{profile.dateOfBirth}</p>
                         </div>
                         </CardHeader>
                         <CardContent>
                         <div className="flex items-start justify-between">
                             <div>
-                            <p>Title of Studies</p>
-                            <p>Year of Studies</p>
+                            <p>{profile.degree}s</p>
+                            <p>{profile.yearOfStudy}</p>
                             </div>
                             <div className="flex flex-wrap gap-2 max-w-[50%] justify-end items-start">
-                            {["COMP6080", "COMP3311", "COMP2511"]
-                                .slice(0, Math.floor(Math.random() * 3) + 1)
+                            {profile.courses
                                 .map((course) => (
                                 <Card key={course} className="px-2 py-1 bg-gray-200 rounded-md text-xs font-semibold flex items-center">
                                     {course}
@@ -143,7 +202,7 @@ function Market () {
                         </CardContent>
                         <div className="bg-white p-4 mt-2 rounded-lg shadow-sm border border-gray-200 w-[90%] mx-auto mb-4">
                         <h3 className="text-lg font-bold">Bio</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a est et diam ullamcorper.</p>
+                        <p>{profile.bio} </p>
                         </div>
                     </Card>
                 </div>

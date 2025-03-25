@@ -14,25 +14,6 @@ const mongodb_1 = require("mongodb");
 const uri = process.env.MONGODB_URI;
 const client = new mongodb_1.MongoClient(uri);
 const database = client.db('cotangles');
-// export async function setData(collectionName: string, data: User | Calendar) {
-//     try {
-//       await client.connect();
-//       const collection = database.collection(collectionName);
-//       return await collection.insertOne(data);  // insert data in collection
-//     } catch (error) {
-//       console.error("failed set data", error);
-//     }
-//   }
-//   // query a document from a collection (calendars or users)
-//   export async function getData(collectionName: string, query = {}) {
-//     try {
-//       await client.connect();
-//       const collection = database.collection(collectionName);
-//       return await collection.find(query).toArray(); // finds data in collection
-//     } catch (error) {
-//       console.error("failed fetching data", error);
-//     }
-//   }
 process.on("SIGINT", () => __awaiter(void 0, void 0, void 0, function* () {
     yield client.close();
     console.log("MongoDB connection closed");

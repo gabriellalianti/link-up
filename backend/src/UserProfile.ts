@@ -33,6 +33,52 @@ const UserProfileSchema = new Schema<IUserProfile>({
 });
 
 // Create and export the Mongoose model
-const UserProfile = mongoose.model<IUserProfile>("UserProfile", UserProfileSchema, "Users");
+export const UserProfile = mongoose.model<IUserProfile>("UserProfile", UserProfileSchema, "Users");
 
 export default UserProfile;
+
+interface IPost extends Document {
+  username: string;
+  title: string;
+  captions: string;
+  photo?: string;
+  timestamp: string;
+  likes: number;
+  comments: string[];
+}
+
+const PostSchema = new Schema<IPost>({
+  username: { type: String, required: true},
+  title: { type: String, required: true },
+  captions: { type: String, required: true },
+  photo: { type: String, default: "" },
+  timestamp: { type: String, default: Date.now().toLocaleString() },
+  likes: { type: Number, default: 0 },
+  comments: { type: [String], default:[] }
+})
+
+export const Post = mongoose.model<IUserProfile>("Post", PostSchema, "Posts");
+
+interface IMarket extends Document {
+  username: string;
+  productName: string;
+  description: string;
+  photo: string;
+  timestamp: string;
+  price: number;
+  tags?: string[];
+  star?: number;
+}
+
+const MarketSchema = new Schema<IMarket>({
+  username: { type: String, required: true},
+  productName: { type: String, required: true },
+  description: { type: String, required: true },
+  photo: { type: String, required: true, default: "" },
+  timestamp: { type: String, default: Date.now().toLocaleString() },
+  price: { type: Number, required: true, default: 0 },
+  tags: { type: [String], default:[] },
+  star: { type: [] }
+})
+
+export const Market = mongoose.model<IUserProfile>("Market", MarketSchema, "Market");

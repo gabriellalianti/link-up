@@ -120,5 +120,15 @@ app.get("/api/getProfile/:userId", (req, res) => __awaiter(void 0, void 0, void 
         res.status(400).json({ error: "Unable to fetch profile", details: error });
     }
 }));
+// app.post("/api/post", async (req, res) => {
+//   try {
+//     const newPost = new Post(req.body);
+//     console.log(newPost);
+//     // saves the data mongo inbuilt
+//     await newPost.save();
+//   } catch (error) {
+//     res.status(400).json({ error: "Invalid post format", details: error })
+//   }
+// })
 // Start Server
 app.listen(5001, () => console.log("Server running on port 5001"));

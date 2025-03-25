@@ -10,8 +10,10 @@ import notification from "../assets/notification.svg"
 import logo from "../assets/1.png"
 import background from "../assets/backgroundProfile.jpeg";
 import search from "../assets/search.svg";
+import logout from "../assets/logout.svg"
 import { jwtDecode }from "jwt-decode";
 import Cookies from "js-cookie";
+import tradeDesk from "../assets/tradeDesk.webp"
 
 function MyLinks() {
   const navigate = useNavigate();
@@ -334,7 +336,7 @@ function MyLinks() {
             </div>
 
             <div
-              className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer "
+              className="flex flex-col justify-center items-center border-b-2 border-black rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer "
               onClick={() => navigate('/my-links')}
             >
               <img src={links} className="w-[25px]" />
@@ -366,6 +368,7 @@ function MyLinks() {
               <img src={notification} className="w-[25px]" />
               <span className="mb-1">Notifications</span>
             </div>
+            <img src={logout} className="fixed right-0 mt-3 h-[30px] w-[100px]" onClick={()=> navigate('/')}/>
           </div>
         </header>
 
@@ -407,16 +410,14 @@ function MyLinks() {
                   ))}
                 </div>
               </div>
-              {/* <div className="absolute rounded-full  w-[100px] h-[100px] z-10 ml-[75px] mt-[105px]"> */}
-                <Avatar className="absolute w-32 h-32 top-52 ml-[60px]">
-                  <AvatarImage src={profile.profilePicture} />
-                  <AvatarFallback>FN</AvatarFallback>
-                </Avatar>
-              {/* </div> */}
+              <Avatar className="absolute w-32 h-32 top-52 ml-[60px]">
+                <AvatarImage src={profile.profilePicture} />
+                <AvatarFallback>FN</AvatarFallback>
+              </Avatar>
             </div>
 
             {/* Extra Box to Use (can fyb) */}
-            <div className="flex bg-yellow-300 w-full h-1/3 rounded-xl border">
+            <div className="flex bg-yellow-300 w-[250px] h-1/3 rounded-xl border">
               {selectedCourse
                 ? <div className="flex w-full items-start justify-between gap-2 p-4">
                   <div className="text-black font-semibold">Selected Course</div>
@@ -426,7 +427,9 @@ function MyLinks() {
                     <div className="flex w-[18px] h-[18px] rounded-full bg-white justify-center items-center">X</div>
                   </button>
                 </div>
-                : <div className="text-black p-4">Helaur, nice to see you buddy!</div>
+                : <div className="flex h-full w-full">
+                  <img src={tradeDesk} className="rounded-lg object-cover"/>
+                </div>
               }
             </div>
           </div>

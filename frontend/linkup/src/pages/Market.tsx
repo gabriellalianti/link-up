@@ -175,7 +175,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   </div>
 
                   <div 
-                      className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
+                      className="flex flex-col justify-center items-center rounded-xl border-b-2 border-black  w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
                       onClick={() => navigate('/market')}
                   >
                       <img src={market} className="w-[25px]"/>
