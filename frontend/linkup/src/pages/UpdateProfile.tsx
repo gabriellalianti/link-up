@@ -81,7 +81,7 @@ function UpdateProfile() {
                 <div className="w-full h-[150px] overflow-hidden rounded-t-xl">
                   <img
                     className="w-full h-full object-cover"
-                    src={backgroundImg || backgroundImage}
+                    src={backgroundImage || backgroundImg}
                     alt="Background"
                   />
 
