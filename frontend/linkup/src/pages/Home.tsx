@@ -43,6 +43,7 @@ function HomePage() {
     __v: "",
     _id: ""
   });
+
   useEffect (() => {
     const fetchProfile = async () => {
       try {
@@ -58,6 +59,11 @@ function HomePage() {
   
             if (response.ok) {
                 const data = await response.json();  
+                const date = new Date(data.dateOfBirth);
+
+                const formattedDate = date.toISOString().split('T')[0];
+                data.dateOfBirth = formattedDate;
+                
                 console.log(data);
                 setProfile(data);
             }
