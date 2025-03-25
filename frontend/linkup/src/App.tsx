@@ -9,6 +9,7 @@ import Messages from "./pages/Messages";
 import Notifications from "./pages/Notifications";
 import UpdateProfile from "./pages/UpdateProfile";
 import CreateProfile from "./pages/CreateProfile";
+import FirstProfile from "./pages/FirstProfile";
 
 // const ProtectedRoute: FC<{children?: ReactNode}> = ({ children }) => {
 //   const token = Cookies.get("userinfo"); // Retrieve the token cookie
@@ -28,8 +29,9 @@ function App() {
         <div>
           <Routes>
             {/* If not logged in already, redirect to login, otherwise redirect to my calendars.*/}
-            
+
               <Route path="/" element={<Login />}></Route>
+              <Route path="/newprofile" element={<FirstProfile />}> </Route>
               <Route path="/market" element={<Market />}></Route>
               <Route path="/home" element={<Home />}></Route>
               <Route path="/my-links" element={<MyLinks />}></Route>
