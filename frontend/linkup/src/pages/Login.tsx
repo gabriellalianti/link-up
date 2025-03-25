@@ -9,29 +9,29 @@ function Login() {
     const [password, setPassword] = useState('');
     const [usernameError, setUsernameError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
- 
+    
+    
 
     const onButtonClick = async () => {
-       if (username.includes("@ad.unsw.edu.au")) {
-        if (username.includes("a.atmadja@ad.unsw.edu.au") && password.length >= 8) {
-            navigate('/newprofile')
-        }
-        else if (password.length >= 8) {
-            navigate('/home')
+        try {
+        const response = await fetch("http://localhost:5001/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: username, password }),
+            credentials: 'include',
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            navigate('/home');
         }
         else {
             setPasswordError(true);
             setUsernameError(false);
         }
-       }
-       else if (password.length < 8) {
-        setPasswordError(true);
-        setUsernameError(false);
-       }
-       else {
-        setUsernameError(true);
-        setPasswordError(false);
-       }
+        } catch (error) {
+            console.error("Error submitting form:", error);
+        }
       };
 
     return (
@@ -75,6 +75,7 @@ function Login() {
                 {
                     passwordError ? <p className="mt-2 text-red-500 font-semibold"> Invalid password </p> : null
                 }
+                <div className="text-center text-sm font-extralight mt-1 cursor-pointer" onClick={() => navigate('/create-profile')}>To log in, create your profile here</div>
             </div>
             <div
                 className="fixed inset-0 bg-cover ml-44"

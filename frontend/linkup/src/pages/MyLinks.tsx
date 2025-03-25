@@ -4,11 +4,15 @@ import { useNavigate } from "react-router-dom";
 import home from "../assets/home.svg"
 import links from "../assets/links.svg"
 import market from "../assets/market.svg"
+import { Avatar, AvatarImage, AvatarFallback } from "../components/components/ui/avatar";
 import messages from "../assets/messages.svg"
 import notification from "../assets/notification.svg"
 import logo from "../assets/1.png"
 import background from "../assets/backgroundProfile.jpeg";
 import search from "../assets/search.svg";
+import { jwtDecode }from "jwt-decode";
+import Cookies from "js-cookie";
+import tradeDesk from "../assets/tradeDesk.webp"
 
 function MyLinks() {
   const navigate = useNavigate();
@@ -165,6 +169,67 @@ function MyLinks() {
       profilePic: ""
     },
   ];
+
+  const [profile, setProfile] = useState<{
+    bio: string,
+    courses: string[],
+    name: string,
+    degree: string,
+    userId: string,
+    dateOfBirth: string,
+    yearOfStudy: string,
+    email: string,
+    profilePicture: string,
+    links: string[],
+    __v: string,
+    _id: string,
+  }>({
+    bio: "",
+    courses: [],
+    degree: "",
+    name: "",
+    userId: "",
+    dateOfBirth: "",
+    yearOfStudy: "",
+    email: "",
+    profilePicture: "",
+    links: [],
+    __v: "",
+    _id: ""
+  });
+
+  useEffect (() => {
+      const fetchProfile = async () => {
+        try {
+            const cooks = Cookies.get("token")
+            if (cooks) {
+              const decodedToken = jwtDecode(cooks);
+              const userId = decodedToken.userId;
+              console.log(userId);
+              const response = await fetch(`http://localhost:5001/api/getProfile/${userId}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+              });
+    
+              if (response.ok) {
+                  const data = await response.json();  
+                  const date = new Date(data.dateOfBirth);
+  
+                  const formattedDate = date.toISOString().split('T')[0];
+  
+                  data.dateOfBirth = formattedDate;
+                  console.log(data.profilePicture)
+                  console.log(data);
+                  setProfile(data);
+              }
+            }
+        } catch (error) {
+            console.error("Error submitting form:", error);
+        }
+      }
+      fetchProfile();
+    }, [])
+
   const userData = {
     name: "user1", 
     major: "Bachelor of Computer Science", 
@@ -188,7 +253,6 @@ function MyLinks() {
   const [searchResultPeoples, setSearchResultsPeoples] = useState<{ name: string, major: string, links: string[], courses: string[] }[]>([]);
 
   useEffect(() => {
-    setUser(userData);
     setPeoples(peoplesData);
   }, [])
 
@@ -325,16 +389,16 @@ function MyLinks() {
               <img className="w-[250px] rounded-xl" src={background} />
               <div className="absolute flex flex-col bg-yellow-300 w-[250px] h-[295px] mt-[158px] px-4 items-center justify-center">
                 <h3 className="text-black font-bold text-xl w-full mt-14 text-center">
-                  {user.name}
+                  {profile.name}
                 </h3>
                 <h4 className="text-gray-400 font-semibold text-sm w-full text-center">
-                  {user.major}
+                  {profile.degree}
                 </h4>
                 <button className="w-1/2 bg-white rounded-full mt-4 text-xs text-gray-400">
-                  {user.links.length} Links
+                  {profile.links.length} Links
                 </button>
                 <div className="flex flex-wrap bg-yellow-300 w-full rounded-xl h-[100px] mt-8  p-3 gap-3 justify-center items-center ">
-                  {user.courses.map((course, index) => (
+                  {profile.courses.map((course, index) => (
                     <button key={index} className="w-[80px] h-[30px] rounded-full text-[10px] text-gray-400 bg-white"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -343,13 +407,14 @@ function MyLinks() {
                   ))}
                 </div>
               </div>
-              <div className="absolute rounded-full bg-black w-[100px] h-[100px] z-10 ml-[75px] mt-[105px]">
-
-              </div>
+              <Avatar className="absolute w-32 h-32 top-52 ml-[60px]">
+                <AvatarImage src={profile.profilePicture} />
+                <AvatarFallback>FN</AvatarFallback>
+              </Avatar>
             </div>
 
             {/* Extra Box to Use (can fyb) */}
-            <div className="flex bg-yellow-300 w-full h-1/3 rounded-xl border">
+            <div className="flex bg-yellow-300 w-[250px] h-1/3 rounded-xl border">
               {selectedCourse
                 ? <div className="flex w-full items-start justify-between gap-2 p-4">
                   <div className="text-black font-semibold">Selected Course</div>
@@ -359,12 +424,14 @@ function MyLinks() {
                     <div className="flex w-[18px] h-[18px] rounded-full bg-white justify-center items-center">X</div>
                   </button>
                 </div>
-                : <div className="text-black p-4">Helaur, nice to see you buddy!</div>
+                : <div className="flex h-full w-full">
+                  <img src={tradeDesk} className="rounded-lg object-cover"/>
+                </div>
               }
             </div>
           </div>
 
-          <div className="flex flex-col bg-yellow-300  rounded-xl border p-3 w-[1080px] h-[710px] ">
+          <div className="flex flex-col bg-yellow-300  rounded-xl border p-3 w-[1080px] h-[720px] ">
             {/* Grid Parent Box */}
             <div className="overflow-y-scroll no-scrollbar rounded-lg">
               {filteredLinks.length != 0
@@ -546,7 +613,7 @@ function MyLinks() {
                                 <button className="rounded-full w-full h-[38px] text-sm text-black bg-yellow-300"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    user.links.push(people.name)
+                                    profile.links.push(people.name)
                                     const peop = peoples.find((peep) => peep.name === people.name);
                                     const userP = peoples.find((peep) => peep.name === userData.name);
                                     userP.links.push(peop.name)

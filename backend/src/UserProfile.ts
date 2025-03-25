@@ -7,9 +7,11 @@ interface IUserProfile extends Document {
   yearOfStudy: string;
   degree: string;
   dateOfBirth: Date;
+  email: string;
   bio: string;
   courses: Array<string>;
   links: Array<string>;
+  password: string;
   profilePicture?: string;
   backgroundPicture?: string;
 }
@@ -21,9 +23,11 @@ const UserProfileSchema = new Schema<IUserProfile>({
   yearOfStudy: { type: String, required: true },
   degree: { type: String, required: true },
   dateOfBirth: { type: Date, required: true },
+  email: { type: String, required: true },
   bio: { type: String, required: true },
   courses: { type: [String], required: true }, 
   links: { type: [String], default: [] }, 
+  password: { type: String, required: true},
   profilePicture: { type: String },
   backgroundPicture: { type: String },
 });

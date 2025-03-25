@@ -7,14 +7,60 @@ import logo from "../assets/1.png"
 import logout from "../assets/logout.svg"
 import avatar from "../assets/avatar-1.jpg"
 import { useNavigate } from "react-router-dom"
+import { useState } from "react";
+import { useEffect, useRef } from "react";
 
 function Messages () {
     const navigate = useNavigate();
     const people = [
-        {name: "Alisha Asparagus", pfp: "../assets/avatar-1.jpg"},
-        {name: "Lebron Huang", pfp: "../assets/avatar-1.jpg"},
-        {name: "Alisha Asparagus", pfp: "../assets/avatar-1.jpg"}
+        {name: "me", pfp: avatar},
+        {name: "Alisha Asparagus", pfp: avatar},
+        {name: "Lebron Huang", pfp: avatar},
+        {name: "Budi Solasido", pfp: avatar}
     ]
+    const [chatMessages, setChatMessages] = useState([
+        { text: "aaaaa iaiiiiiii iiaiiiiiiai iaiaiai iioooooo ooi oiiiii", time: "12:32", sender: "Alisha Asparagus", receiver: "me" },
+        { text: "iiaiaiai aiaiiiii ssss oooooooioii iiiiiiiii iiiiooooooo oaa", time: "12:45", sender: "me", receiver: "Alisha Asparagus"},
+        { text: "aaa aa aiiiiii iiiiaiiiiiaia aiiaiai iiiooooo ooioiiiii", time: "14:05", sender: "Alisha Asparagus", receiver: "me" },
+        { text: "eeeeeee eeeee aaaaa", time: "14:45", sender: "me", receiver: "Alisha Asparagus" },
+        { text: "Hey! Good Morning", time: "14:57", sender: "Lebron Huang", receiver: "me" },
+        { text: "Wanna grab a coffee?", time: "14:58", sender: "Lebron Huang", receiver: "me" },
+        { text: "Yeah sure whereabouts", time: "15.02", sender: "me", receiver: "Lebron Huang" },
+        { text: "Brooooo", time: "10:37", sender: "me", receiver: "Budi Solasido" },
+        { text: "yo wassapp?", time: "12:13", sender: "Budi Solasido", receiver: "me" },
+        { text: "Check out this cool web called LinkedUp", time: "12.46", sender: "me", receiver: "Budi Solasido" },
+
+
+    ]);
+    const [newMessage, setNewMessage] = useState("");
+    const [me, setMe] = useState<{name: "", pfp: ""}>({name: "", pfp: ""});
+    const [receiver, setReceiver] = useState<{name: "", pfp: ""}>({name: "", pfp: ""});
+    useEffect(() => {
+        setReceiver({
+            name: people[1].name,
+            pfp: people[1].pfp
+        })
+        setMe({
+            name: people[0].name,
+            pfp: people[0].pfp
+        })
+    },[])
+    const sendMessage = () => {
+        if (newMessage.trim() !== "") {
+            const currentTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+            setChatMessages([...chatMessages, { text: newMessage, time: currentTime, sender: me.name , receiver: receiver.name}]);
+            setNewMessage("");
+        }
+    };
+
+    const chatRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (chatRef.current) {
+            chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        }
+    }, [chatMessages]); // Scrolls to bottom when messages update
+
     return (
         <>
             <div className="flex flex-col w-screen h-screen">
@@ -76,62 +122,55 @@ function Messages () {
                             <div className="xl:flex md:flex lg:flex sm:hidden flex flex-row w-full max-w-[97%] justify-between mt-4 gap-x-4">
                             </div>
                     </div> */}
+
                     {/* sidebar container */}
                     <div className="bg-white w-[224px] h-[600px] rounded-xl flex flex-col items-center pt-[18px]">
                         <p className="font-semibold text-lg">Messages</p>
                         <div className="flex items-center p-3 bg-yellow-300 rounded-lg mt-[10px] w-[200px]">
-                            <img src={people[0].pfp} className="w-[32px] h-[32px] rounded-full mr-3" />
-                            <span className="mb-1"> {people[0].name} </span>
+                            <img src={receiver.pfp} className="w-[32px] h-[32px] rounded-full mr-3" />
+                            <span className="mb-1"> {receiver.name} </span>
                         </div>
-                        { people.map((people, index) => (
-                            <div className="flex items-center p-3 bg-gray-200 rounded-lg mt-[10px] w-[200px]">
-                                <img src={people.pfp} className="w-[32px] h-[32px] rounded-full mr-3" />
-                                <span className="mb-1"> {people.name} </span>
+                        { people.filter((peop) => peop.name != receiver.name && peop.name != me.name).map((peop, index) => (
+                            <div className="flex items-center p-3 bg-gray-200 rounded-lg mt-[10px] w-[200px] cursor-pointer"
+                                onClick={() => {
+                                    setReceiver({name: peop.name, pfp: peop.pfp});
+                                    console.log("here")
+                                }}>
+                                <img src={peop.pfp} className="w-[32px] h-[32px] rounded-full mr-3" />
+                                <span className="mb-1"> {peop.name} </span>
                             </div>
                         ))}
                     </div>
+
                     {/* msg */}
                     <div className="bg-white w-[780px] h-[600px] rounded-xl ml-[60px] flex flex-col shadow-md">
                     <div className="flex items-center p-4 border-b">
                         <img src={avatar} className="w-[40px] h-[40px] rounded-full mr-3" alt="Avatar" />
-                        <span className="font-semibold">Alisha Asparagus</span>
+                        <span className="font-semibold">{receiver.name}</span>
                     </div>
 
                     {/* Chat Messages */}
-                    <div className="flex flex-col flex-1 p-4 space-y-4 overflow-y-auto">
-                        <div className="flex flex-col">
-                        <span className="text-xs text-gray-500">12:32</span>
-                        <div className="bg-gray-200 text-black p-3 rounded-lg max-w-[60%]">
-                            aaaaa iaiiiiiii iiaiiiiiiai iaiaiai iioooooo ooi oiiiii
-                        </div>
-                        </div>
-                        <div className="flex flex-col items-end">
-                        <span className="text-xs text-gray-500">12:45</span>
-                        <div className="bg-yellow-200 text-black p-3 rounded-lg max-w-[60%]">
-                            iiaiaiai aiaiiiii ssss oooooooioii iiiiiiiii iiiiooooooo oaa
-                        </div>
-                        </div>
-                        <div className="flex flex-col">
-                        <span className="text-xs text-gray-500">14:05</span>
-                        <div className="bg-gray-200 text-black p-3 rounded-lg max-w-[60%]">
-                            aaa aa aiiiiii iiiiaiiiiiaia aiiaiai iiiooooo ooioiiiii
-                        </div>
-                        </div>
-                        <div className="flex flex-col items-end">
-                        <span className="text-xs text-gray-500">14:45</span>
-                        <div className="bg-yellow-200 text-black p-3 rounded-lg max-w-[60%]">
-                            eeeeeee eeeee aaaaa
-                        </div>
-                        </div>
+                     <div ref={chatRef} className="h-full flex flex-col flex-1 p-4 space-y-4 overflow-y-auto no-scrollbar">
+                         {chatMessages.filter((msg) => (msg.receiver == receiver.name) || (msg.sender == receiver.name) ).map((msg, index) => (
+                            <div key={index} className={`flex flex-col ${msg.sender === "me" ? "items-end" : "items-start"}`}>
+                                <span className="text-xs text-gray-500">{msg.time}</span>
+                                <div className={`${msg.sender === "me" ? "bg-yellow-200" : "bg-gray-200"} text-black p-3 rounded-lg max-w-[60%]`}>{msg.text}</div>
+                            </div>
+                        ))}
                     </div>
+                    
+                    {/* Message Input */}
                     <div className="border-t p-3 flex items-center">
                         <input
-                        type="text"
-                        placeholder="Start typing..."
-                        className="flex-1 border rounded-full p-2 pl-4 outline-none bg-white"
+                            type="text"
+                            placeholder="Start typing..."
+                            className="flex-1 border rounded-full p-2 pl-4 outline-none bg-white"
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                         />
-                        <button className="ml-2 p-2 bg-gray-100 rounded-full">
-                        ➤
+                        <button className="ml-2 p-2 w-[42px] bg-gray-100 rounded-full" onClick={sendMessage}>
+                            <div className="ml-[1px]">➤</div>
                         </button>
                     </div>
                     </div>

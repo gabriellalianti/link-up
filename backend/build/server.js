@@ -24,12 +24,61 @@ app.use((0, cors_1.default)({
     methods: ["GET", "POST", "PUT", "DELETE",],
     credentials: true
 }));
-app.use(express_1.default.json());
+app.use(express_1.default.json({ limit: "100mb" })); // Increase limit (default is ~1MB)
+app.use(express_1.default.urlencoded({ extended: true, limit: "100mb" }));
 const uri = "mongodb+srv://atmandy345:andy0304@linkup.z9xlt.mongodb.net/LinkUp?retryWrites=true&w=majority&appName=LinkUp";
 // MongoDB Connection
 mongoose_1.default.connect(uri)
     .then(() => console.log("MongoDB Connected"))
     .catch(err => console.error("Error connecting to MongoDB:", err));
+app.post("/api/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email, password } = req.body;
+        console.log(email);
+        console.log(password);
+        // Validate input
+        if (!email || !password) {
+            return res.status(400).json({ error: "Email and password are required" });
+        }
+        const user = yield UserProfile_1.default.findOne({ email });
+        if (!user) {
+            return res.status(401).json({ error: "Invalid email or password" });
+        }
+        if (user.password !== password) {
+            return res.status(401).json({ error: "Invalid email or password" });
+        }
+        const JWT_SECRET = "Hello you can steal this";
+        const token = jsonwebtoken_1.default.sign({ userId: user.userId, username: email }, JWT_SECRET, {
+            expiresIn: '1h', // EXPIRATION TIME !!!
+        });
+        console.log(token);
+        res.cookie('token', token, {
+            httpOnly: false,
+            secure: false, // Set to true in production when using HTTPS
+            maxAge: 3600000, // 1 hour in milliseconds
+            sameSite: "lax", // KEEP THIS AS LAX DO NOT CHANGE TO NONE OR CHROME WILL FUCK YOU OVER
+        });
+        // Login successful
+        res.status(200).json({ message: "Login successful", user });
+    }
+    catch (error) {
+        res.status(400).json({ error: "Invalid Login", details: error });
+    }
+}));
+app.post("/api/logout", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Clear the cookie
+        res.clearCookie('token', {
+            httpOnly: false, // This should match how the cookie was set
+            secure: false, // Set to true in production when using HTTPS
+            sameSite: 'lax', // This should match how the cookie was set
+        });
+        res.status(200).json({ message: "Logged out successfully" });
+    }
+    catch (error) {
+        res.status(500).json({ error: "Logout failed", details: error });
+    }
+}));
 // Profile
 app.post("/api/profile", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
