@@ -81,13 +81,14 @@ function MiddleColumn() {
                   placeholder="What do you want to talk about?"
                 />
                 {/* Media preview (optional) */}
-                {selectedMedia && (
+                <div className="flex">
+                  {selectedMedia && (
                   <img
                     src={selectedMedia}
                     alt="Selected Media"
-                    className="max-h-[200px] w-auto rounded-lg border border-gray-200"
-                  />
-                )}
+                    className="max-h-[200px] w-auto object-contain rounded-lg border border-gray-200"/>
+                  )}
+                </div>
                 <div className="flex flex-row gap-4">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>

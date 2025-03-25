@@ -120,7 +120,7 @@ function SinglePost({ postData }) {
           <img
             src={postData.image}
             alt="Post content"
-            className="max-h-[300px] w-auto rounded-lg border border-gray-200"
+            className="max-h-[200px] w-auto rounded-lg border border-gray-200"
           />
         )}
       </CardContent>
