@@ -5,7 +5,6 @@ import { Input } from "../components/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "../components/components/ui/avatar";
 import { Eye, EyeOff, Camera } from "lucide-react";
 import { useNavigate } from "react-router-dom"
-import backgroundImg from "../assets/defaultbackgroundimg.png"
 
 function UpdateProfile() {
   const [profilePic, setProfilePic] = useState(null);
