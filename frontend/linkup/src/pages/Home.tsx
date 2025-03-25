@@ -105,6 +105,24 @@ function HomePage() {
     fetchProfile();
   }, [])
 
+  const onButtonClick = async () => {
+    try {
+    const response = await fetch("http://localhost:5001/api/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: 'include',
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+        navigate('/');
+    }
+    } catch (error) {
+        console.error("Error submitting form:", error);
+    }
+  };
+
+
   const [people, setPeople] = useState([
     { name: "Lebron James", pfp: avatar1 },
     { name: "Stephen Curry", pfp: avatar2 },
@@ -163,7 +181,7 @@ function HomePage() {
                 <img src={notification} className="w-[25px]"/>
                 <span className="mb-1">Notifications</span>
             </div>
-            <img src={logout} className="fixed right-0 mt-3 h-[30px] w-[100px] cursor-pointer" onClick={()=> navigate('/')}/>
+            <img src={logout} className="fixed right-0 mt-3 h-[30px] w-[100px] cursor-pointer" onClick={()=> onButtonClick()}/>
     </div>
 </header>
 
