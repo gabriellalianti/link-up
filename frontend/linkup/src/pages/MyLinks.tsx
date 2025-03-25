@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import home from "../assets/home.svg"
 import links from "../assets/links.svg"
 import market from "../assets/market.svg"
+import { Avatar, AvatarImage, AvatarFallback } from "../components/components/ui/avatar";
 import messages from "../assets/messages.svg"
 import notification from "../assets/notification.svg"
 import logo from "../assets/1.png"
@@ -405,9 +406,12 @@ function MyLinks() {
                   ))}
                 </div>
               </div>
-              <div className="absolute rounded-full bg-black w-[100px] h-[100px] z-10 ml-[75px] mt-[105px]">
-
-              </div>
+              {/* <div className="absolute rounded-full  w-[100px] h-[100px] z-10 ml-[75px] mt-[105px]"> */}
+                <Avatar className="absolute w-32 h-32 top-52 ml-[60px]">
+                  <AvatarImage src={profile.profilePicture} />
+                  <AvatarFallback>FN</AvatarFallback>
+                </Avatar>
+              {/* </div> */}
             </div>
 
             {/* Extra Box to Use (can fyb) */}
