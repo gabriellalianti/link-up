@@ -13,11 +13,32 @@ import notification from "../assets/notification.svg"
 import logo from "../assets/1.png"
 import logout from "../assets/logout.svg"
 import { useNavigate } from "react-router-dom"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function HomePage() {
   const navigate = useNavigate();
   
+  const [profile, setProfile] = useState("1");
+  useEffect (() => {
+    const fetchProfile = async () => {
+      try {
+          const response = await fetch("http://localhost:5001/api/getProfile", {
+              method: "GET",
+              headers: { "Content-Type": "application/json" },
+          });
+  
+          if (response.ok) {
+              const data = await response.json();  
+              setProfile(data);
+              console.log(profile);
+          }
+      } catch (error) {
+          console.error("Error submitting form:", error);
+      }
+    }
+    fetchProfile();
+  }, [])
+
   return (
     <div className="flex flex-col w-screen h-screen">
       {/* Nav Bar */}
