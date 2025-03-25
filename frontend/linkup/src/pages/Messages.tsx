@@ -8,6 +8,7 @@ import logout from "../assets/logout.svg"
 import avatar from "../assets/avatar-1.jpg"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react";
+import { useEffect, useRef } from "react";
 
 function Messages () {
     const navigate = useNavigate();
@@ -30,6 +31,14 @@ function Messages () {
             setNewMessage("");
         }
     };
+
+    const chatRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (chatRef.current) {
+            chatRef.current.scrollTop = chatRef.current.scrollHeight;
+        }
+    }, [chatMessages]); // Scrolls to bottom when messages update
 
     return (
         <>
@@ -114,7 +123,7 @@ function Messages () {
                     </div>
 
                     {/* Chat Messages */}
-                     <div className="flex flex-col flex-1 p-4 space-y-4 overflow-y-auto">
+                     <div ref={chatRef} className="h-full flex flex-col flex-1 p-4 space-y-4 overflow-y-auto no-scrollbar">
                          {chatMessages.map((msg, index) => (
                             <div key={index} className={`flex flex-col ${msg.sender === "me" ? "items-end" : "items-start"}`}>
                                 <span className="text-xs text-gray-500">{msg.time}</span>
