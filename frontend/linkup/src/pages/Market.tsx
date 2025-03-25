@@ -4,6 +4,7 @@ import { Input } from "../components/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "../components/components/ui/avatar";
 import { ScrollArea } from "../components/components/ui/scroll-area";
 import { Home, MessageCircle, Bell, Users, Edit } from "lucide-react";
+import { TagsInput } from "react-tag-input-component";
 import StarRatings from 'react-star-ratings';
 import home from "../assets/home.svg"
 import links from "../assets/links.svg"
@@ -22,6 +23,7 @@ import { useState } from "react";
 function HomePage() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
+  const [createPopup, setCreatePopup] = useState(false);
   const [products, setProducts] = useState([
     {
       "productId": 5353, 
@@ -106,6 +108,41 @@ function HomePage() {
       return day + " " + month + year;
     }
   }
+
+  const [formData, setFormData] = useState({
+    product: "",
+    description: "",
+    price: "",
+    image: "",
+    tags: [],
+});
+
+// Handle input change
+const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+};
+
+const [selected, setSelected] = useState([]);
+
+// Handle form submission
+const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+        var outData = formData;
+        outData["tags"] = selected;
+        const response = await fetch("http://localhost:5001/api/market", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+            navigate("/market"); 
+        }
+    } catch (error) {
+        console.error("Error submitting form:", error);
+    }
+};
   
   return (
     <div className="flex flex-col w-screen h-screen">
@@ -160,8 +197,15 @@ function HomePage() {
       {/* Main Content */}
       <main className="mt-[80px] flex flex-col flex-grow overflow-y-auto">
         <div className="flex flex-grow p-6 gap-6">
+
           {/* Left Column */}
-          <Card className="w-1/4 p-4 h-fit">
+          <div className="flex flex-col h-fit min-w-[300px]">
+          <Card className="p-4 h-fit mb-6 bg-gray-200 cursor-pointer" onClick={() => setCreatePopup(true)}>
+            <Edit className="w-5 h-5 inline-block mr-2 pb-[2px]" />
+            Create New Listing
+          </Card>
+
+          <Card className="p-4 h-fit">
             <CardHeader>
               <h2 className="text-lg font-bold">Filter Products</h2>
             </CardHeader>
@@ -182,11 +226,12 @@ function HomePage() {
               </ul>
             </CardContent>
           </Card>
+          </div>
 
           {/* Middle Column - Posts Section */}
-          <div className="w-[60%] flex flex-col gap-4">
+          <div className="flex-grow flex flex-col gap-4">
             {/* Post Input Card */}
-            <Card className="p-4 h-[80px]">
+            <Card className="p-4 h-[80px] w-[100%]">
               <div className="flex items-center gap-4 bg-white text-black py-2 px-4 rounded-lg">
               <img src={search} className="w-[25px]" alt="search" />
                 <input className="w-full h-[32px]  text-left flex justify-start items-center bg-white focus:outline-none" autoComplete="off"
@@ -196,7 +241,8 @@ function HomePage() {
             </Card>
 
             {/* Posts Feed Section */}
-            <ScrollArea className="h-[calc(100vh-180px)] space-y-4">
+            <ScrollArea className="h-[calc(100vh-180px)] space-y-4 no-scrollbar">
+              <div className="grid grid-cols-2 gap-2">
               {
                 products.map((product) => {
                   if (product["product"].concat(product["description"]).concat(product["seller"]).concat(product["tags"].join()).toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1 && ((tags.filter(value => product["tags"].some((v) => v == value)).length) || tags.length === 0)) {
@@ -209,8 +255,8 @@ function HomePage() {
                               <AvatarFallback>U</AvatarFallback>
                             </Avatar>
                             <div>
-                              <h2 className="text-xl font-bold">{product["product"]}</h2>
-                              <h3 className="text-lg">Being sold by {product["seller"]}</h3>
+                              <h2 className="text-lg font-bold">{product["product"]}</h2>
+                              <h3 className="text-l">Being sold by {product["seller"]}</h3>
                               <p className="text-sm text-gray-500">{timeSince(product["listTime"])}</p>
                             </div>
                             <div className="ml-auto mr-1">
@@ -220,16 +266,16 @@ function HomePage() {
                               // changeRating={this.changeRating}
                               numberOfStars={5}
                               name='rating'
-                              starDimension="25px"
-                              starSpacing="3px"
+                              starDimension="18px"
+                              starSpacing="2px"
                               />       
-                              <div className="text-right mt-3 text-xl mr-1">
+                              <div className="text-right mt-3 text-lg mr-1">
                                   ${product["price"]}
                               </div>            
                               </div>
                           </div>
                         </CardHeader>
-                        <CardContent className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mx-6">
+                        <CardContent className="min-h-[65%] bg-white text-l p-4 rounded-lg shadow-sm border border-gray-200 mx-6">
                           <p className="mb-4">
                               {product["description"]}
                           </p>
@@ -249,7 +295,8 @@ function HomePage() {
                   }
                 })
               }
-              <Card>
+              </div>
+              <Card className="col-span-2">
                 <CardContent className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 m-6 text-xl">
                     There are no more products matching the filters and search query!
                     <img src={brokenGlass} className="mx-auto mt-10"/>
@@ -257,46 +304,38 @@ function HomePage() {
               </Card>
             </ScrollArea>
           </div>
-
-          {/* Right Column - Profile Card */}
-          <Card className="w-1/3 p-1 h-fit relative">
-            <Button className="absolute top-10 right-8">
-              <Edit className="w-5 h-5" />
-            </Button>
-            <CardHeader>
-              <div className="flex flex-col items-left">
-                <Avatar className="w-40 h-40">
-                  <AvatarImage src="https://via.placeholder.com/80" />
-                  <AvatarFallback>FN</AvatarFallback>
-                </Avatar>
-                <h1 className="text-xl font-bold mt-4">Full Name</h1>
-                <p className="text-sm text-gray-700">Age years old</p>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-start justify-between">
-                <div>
-                  <p>Title of Studies</p>
-                  <p>Year of Studies</p>
-                </div>
-                <div className="flex flex-wrap gap-2 max-w-[50%] justify-end items-start">
-                  {["COMP6080", "COMP3311", "COMP2511"]
-                    .slice(0, Math.floor(Math.random() * 3) + 1)
-                    .map((course) => (
-                      <Card key={course} className="px-2 py-1 bg-gray-200 rounded-md text-xs font-semibold flex items-center">
-                        {course}
-                      </Card>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-            <div className="bg-white p-4 mt-2 rounded-lg shadow-sm border border-gray-200 w-[90%] mx-auto mb-4">
-              <h3 className="text-lg font-bold">Bio</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a est et diam ullamcorper.</p>
-            </div>
-          </Card>
         </div>
       </main>
+
+      {
+          createPopup
+            ? <div className="fixed flex inset-0 bg-black/30 w-full h-full z-20 items-center justify-center" onClick={() => { setCreatePopup(false) }}>
+              <div className="flex flex-col bg-white rounded-xl w-[700px] text-black p-6"
+                onClick={(e) => e.stopPropagation()}>
+                <form onSubmit={handleSubmit}>
+                  <input name="product" placeholder="Product" className="mb-5 w-full p-2 border rounded text-black bg-white"
+                          value={formData.product} onChange={handleChange} required />
+                  <textarea name="description" placeholder="Product Description" className="mb-5 w-full p-2 border rounded text-black bg-white"
+                  value={formData.description} onChange={handleChange} required rows="3"/>
+                  <input name="price" placeholder="Price" className="mb-5 w-full p-2 border rounded text-black bg-white"
+                  value={formData.price} onChange={handleChange} required type="number" min="0"/>
+                  <input name="image" placeholder="Image Link" className="mb-5 w-full p-2 border rounded text-black bg-white"
+                  value={formData.image} onChange={handleChange} required />
+                  <TagsInput
+                    value={selected}
+                    onChange={setSelected}
+                    name="Tags"
+                    placeHolder="Enter Tags"
+                  />
+
+                  <button type="submit" className="py-2 px-4 bg-yellow-300 rounded-lg w-[150px] h-[50px] mt-6">
+                      <p>Submit Listing</p>
+                  </button>
+                </form>
+              </div>
+            </div>
+            : null
+        }
     </div>
   );
 }
