@@ -11,10 +11,13 @@ import market from "../assets/market.svg"
 import messages from "../assets/messages.svg"
 import notification from "../assets/notification.svg"
 import logo from "../assets/1.png"
+import logout from "../assets/logout.svg"
 import { useNavigate } from "react-router-dom"
+import { useState } from "react";
 
 function HomePage() {
   const navigate = useNavigate();
+  
   return (
     <div className="flex flex-col w-screen h-screen">
       {/* Nav Bar */}
@@ -79,7 +82,7 @@ function HomePage() {
                 {["Alisha Asparagus", "Benny Broccoli", "Fine shyt", "Smol Waifu", "Simp Slayer"].map((person) => (
                   <li key={person} className="flex justify-between">
                     <span>{person}</span>
-                    <Button size="sm">+</Button>
+                    <Button size="sm" className="bg-white text-black hover:bg-black/10">+</Button>
                   </li>
                 ))}
               </ul>
@@ -95,7 +98,7 @@ function HomePage() {
                   <AvatarImage src="https://via.placeholder.com/40" />
                   <AvatarFallback>FN</AvatarFallback>
                 </Avatar>
-                <Button className="w-full h-[70px] bg-white text-black py-2 px-4 rounded-lg text-left flex justify-start items-center">
+                <Button className="w-full h-[70px] bg-white text-black py-2 px-4 rounded-lg text-left flex justify-start items-center hover:bg-white">
                   <span>Start a post...</span>
                 </Button>
               </div>
