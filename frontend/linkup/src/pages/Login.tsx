@@ -33,7 +33,7 @@ function Login() {
                 <div className="flex flex-col mt-5">
                     <button
                         className="py-2 px-4 bg-blue-500 text-white rounded-lg outline-none"
-                        onClick={() => navigate('/home')}
+                        onClick={() => navigate('/create-profile')}
                     >
                         →
                     </button>

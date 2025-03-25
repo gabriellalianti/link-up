@@ -3,7 +3,25 @@ import { Button } from "../components/components/ui/button";
 import { Input } from "../components/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "../components/components/ui/avatar";
 import { ScrollArea } from "../components/components/ui/scroll-area";
-import { Home, MessageCircle, Bell, Users, Edit } from "lucide-react";
+import { Home, MessageCircle, Bell, Users, Edit, X } from "lucide-react";
+import {
+    Dialog,
+    DialogTrigger,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+    DialogFooter,
+    DialogClose
+  } from "../components/components/ui/dialog"
+  import {
+    DropdownMenu,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+  } from "../components/components/ui/dropdown-menu"
 
 import home from "../assets/home.svg"
 import links from "../assets/links.svg"
@@ -12,163 +30,137 @@ import messages from "../assets/messages.svg"
 import notification from "../assets/notification.svg"
 import logo from "../assets/1.png"
 import { useNavigate } from "react-router-dom"
+import React, { useState } from "react"
+import avatar1 from "../assets/avatar1.jpg"
+import avatar2 from "../assets/avatar2.jpg"
+import avatar3 from "../assets/avatar3.jpg"
+
+import SinglePost from "./Comment";
+import MiddleColumn from "./Post";
 
 function HomePage() {
   const navigate = useNavigate();
+	const [people, setPeople] = useState([
+    { name: "Lebron James", pfp: avatar1 },
+    { name: "Stephen Curry", pfp: avatar2 },
+    { name: "Luka Doncic", pfp: avatar3 }
+  ]);
+	const handleRemove = (name) => {
+    setPeople((prevPeople) => prevPeople.filter((person) => person.name !== name));
+  };
   return (
     <div className="flex flex-col w-screen h-screen">
-      {/* Nav Bar */}
-      <header className="fixed top-0 left-0 right-0 bg-white border-b flex items-center h-[80px] z-10">
-        <img src={logo} className="ml-5 h-[80px] w-[100px]" alt="Logo" />
-        <div className="flex flex-row w-full justify-center text-sm gap-20">
+      {/* NAV BAR */}
+      <header className="fixed bg-white w-full min-h-[8%] border-b justify-center">
+        <img src={logo} className="fixed left-0 ml-5 h-[80px] w-[100px]"/>
+				<div className="flex flex-row w-screen justify-center text-sm mt-2 gap-20">
           <div 
-            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
-            onClick={() => navigate('/home')}
-          >
-            <img src={home} className="w-[25px]" alt="Home" />
-            <span>Home</span>
+            className="flex flex-col justify-center items-center w-24 mt-2 border-b-2 border-black transition cursor-pointer"
+            onClick={() => navigate('/home')}>
+            <img src={home} className="w-[25px]"/>
+            <span className="mb-1">Home</span>
           </div>
+        
           <div 
-            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
-            onClick={() => navigate('/my-links')}
-          >
-            <img src={links} className="w-[25px]" alt="My Links" />
-            <span>My Links</span>
+            className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer "
+            onClick={() => navigate('/my-links')}>
+            <img src={links} className="w-[25px]"/>
+            <span className="mb-1">My Links</span>
           </div>
+        
           <div 
-            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
-            onClick={() => navigate('/market')}
-          >
-            <img src={market} className="w-[25px]" alt="Market" />
-            <span>Market</span>
+            className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
+            onClick={() => navigate('/market')}>
+            <img src={market} className="w-[25px]"/>
+            <span className="mb-1">Market</span>
           </div>
+        
           <div 
-            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
-            onClick={() => navigate('/messages')}
-          >
-            <img src={messages} className="w-[25px]" alt="Messages" />
-            <span>Messages</span>
+            className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
+            onClick={() => navigate('/messages')}>
+            <img src={messages} className="w-[25px]"/>
+            <span className="mb-1">Messages</span>
           </div>
+        
           <div 
-            className="flex flex-col justify-center items-center rounded-xl w-24 hover:bg-black/5 transition cursor-pointer"
-            onClick={() => navigate('/notifications')}
-          >
-            <img src={notification} className="w-[25px]" alt="Notifications" />
-            <span>Notifications</span>
+            className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
+            onClick={() => navigate('/notifications')}>
+            <img src={notification} className="w-[25px]"/>
+            <span className="mb-1">Notifications</span>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="mt-[80px] flex flex-col flex-grow overflow-y-auto">
+      {/* MAIN CONTENT PAGE */}
+      <main className="pt-[80px] flex w-full h-full bg-gray-100">
         <div className="flex flex-grow p-6 gap-6">
-          {/* Left Column */}
-          <Card className="w-1/4 p-4 h-fit">
+          {/* Left Column Card */}
+          <Card className="w-1/4 p-1 h-fit">
             <CardHeader>
               <h2 className="text-lg font-bold">People You Might Know</h2>
             </CardHeader>
             <CardContent>
-              <ul className="space-y-2">
-                {["Alisha Asparagus", "Benny Broccoli", "Fine shyt", "Smol Waifu", "Simp Slayer"].map((person) => (
-                  <li key={person} className="flex justify-between">
-                    <span>{person}</span>
-                    <Button size="sm">+</Button>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
+						<ul className="space-y-4">
+							{people.map((person) => (
+								<li key={person.name} className="flex items-center justify-between">
+									{/* Avatar + Name */}
+									<div className="flex items-center">
+										<Avatar className="w-8 h-8">
+											<AvatarImage src={person.pfp} alt={person.name} />
+										</Avatar>
+										<span className="ml-2">{person.name}</span>
+									</div>
+									{/* Add Button */}
+									<Button size="sm" onClick={() => handleRemove(person.name)}>+</Button>
+								</li>
+      				))}
+    				</ul>
+          </CardContent>
+        </Card>
 
-          {/* Middle Column - Posts Section */}
-          <div className="w-[60%] flex flex-col gap-4">
-            {/* Post Input Card */}
-            <Card className="p-4 h-[110px]">
-              <div className="flex items-center gap-4">
-                <Avatar className="self-start">
-                  <AvatarImage src="https://via.placeholder.com/40" />
-                  <AvatarFallback>FN</AvatarFallback>
-                </Avatar>
-                <Button className="w-full h-[70px] bg-white text-black py-2 px-4 rounded-lg text-left flex justify-start items-center">
-                  <span>Start a post...</span>
-                </Button>
-              </div>
-            </Card>
+        {/* Middle Column Card - Create Posts Section */}
+        <MiddleColumn />
 
-            {/* Posts Feed Section */}
-            <ScrollArea className="h-[calc(100vh-180px)] space-y-4">
-              {[1, 2, 3].map((post) => (
-                <Card key={post} className="p-2 shadow-md border border-gray-200 mb-4">
-                  <CardHeader>
-                    <div className="flex items-center gap-4">
-                      <Avatar className="w-16 h-16">
-                        <AvatarImage src="https://via.placeholder.com/40" />
-                        <AvatarFallback>U</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <h2 className="text-xl font-bold">User {post}</h2>
-                        <h3 className="text-lg">Studies {post}</h3>
-                        <p className="text-sm text-gray-500">5 minutes ago</p>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mx-6">
-                    <p className="mb-4">
-                      This is a sample post content for user {post}. "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..."
-                    </p>
-                    {/* Post Image */}
-                    <img
-                      src="https://kpopping.com/documents/8e/5/800/240607-aespa-Winter-Makestar-Fansign-documents-1(10).jpeg?v=c10dd"
-                      alt="Post content"
-                      className="max-h-[300px] w-auto rounded-lg border border-gray-200"
-                    />
-                  </CardContent>
-                  <div className="h-4"></div>
-                  <CardFooter className="flex justify-end gap-2">
-                    <Button variant="outline">Like</Button>
-                    <Button variant="outline">Comment</Button>
-                  </CardFooter>
-                </Card>
-              ))}
-            </ScrollArea>
-          </div>
+				{/* Right Column Card - Profile Card */}
+				<Card className="w-1/3 p-1 h-fit relative">
+					<div onClick={() => navigate('/update-profile')}>
+						<Button className="absolute top-10 right-8 ">
+							<Edit className="w-5 h-5" />
+						</Button>
+					</div>
 
-          {/* Right Column - Profile Card */}
-          <Card className="w-1/3 p-1 h-fit relative">
-            <Button className="absolute top-10 right-8">
-              <Edit className="w-5 h-5" />
-            </Button>
-            <CardHeader>
-              <div className="flex flex-col items-left">
-                <Avatar className="w-40 h-40">
-                  <AvatarImage src="https://via.placeholder.com/80" />
-                  <AvatarFallback>FN</AvatarFallback>
-                </Avatar>
-                <h1 className="text-xl font-bold mt-4">Full Name</h1>
-                <p className="text-sm text-gray-700">Age years old</p>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-start justify-between">
-                <div>
-                  <p>Title of Studies</p>
-                  <p>Year of Studies</p>
-                </div>
-                <div className="flex flex-wrap gap-2 max-w-[50%] justify-end items-start">
-                  {["COMP6080", "COMP3311", "COMP2511"]
-                    .slice(0, Math.floor(Math.random() * 3) + 1)
-                    .map((course) => (
-                      <Card key={course} className="px-2 py-1 bg-gray-200 rounded-md text-xs font-semibold flex items-center">
-                        {course}
-                      </Card>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-            <div className="bg-white p-4 mt-2 rounded-lg shadow-sm border border-gray-200 w-[90%] mx-auto mb-4">
-              <h3 className="text-lg font-bold">Bio</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a est et diam ullamcorper.</p>
-            </div>
-          </Card>
+					<CardHeader>
+						<div className="flex flex-col items-left">
+							<Avatar className="w-40 h-40">
+								<AvatarImage src="https://via.placeholder.com/80" />
+								<AvatarFallback>FN</AvatarFallback>
+							</Avatar>
+							<h1 className="text-xl font-bold mt-4">Full Name</h1>
+							<p className="text-sm text-gray-700">Age years old</p>
+						</div>
+					</CardHeader>
+
+					<CardContent>
+						<div className="flex items-start justify-between">
+							<div>
+								<p>Title of Studies</p>
+								<p>Year of Studies</p>
+							</div>
+							<div className="flex flex-wrap gap-2 max-w-[50%] justify-end items-start">
+								{["COMP6080", "COMP3311", "COMP2511"].map((course) => (
+									<Card key={course} className="px-2 py-1 bg-gray-200 rounded-md text-xs font-semibold flex items-center">
+											{course}
+									</Card>
+								))}
+							</div>
+						</div>
+					</CardContent>
+					
+					{/* WORD LIMIT IS 80? */}
+					<div className="bg-white p-4 mt-2 rounded-lg shadow-sm border border-gray-200 w-[90%] mx-auto mb-4 max-h-40 break-words">
+						<p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut</p>
+					</div>
+				</Card>
         </div>
       </main>
     </div>
@@ -176,5 +168,4 @@ function HomePage() {
 }
 
 export default HomePage;
-
   
