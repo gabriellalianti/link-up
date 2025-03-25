@@ -10,9 +10,9 @@ import { useNavigate } from "react-router-dom"
 function Messages () {
     const navigate = useNavigate();
     const people = [
-        {name: "Alisha Asparagus", pfp: "../assets/avatar-1.jpg"},
-        {name: "Lebron Huang", pfp: "../assets/avatar-1.jpg"},
-        {name: "Alisha Asparagus", pfp: "../assets/avatar-1.jpg"}
+        {name: "Alisha Asparagus", pfp: avatar},
+        {name: "Lebron Huang", pfp: avatar},
+        {name: "Alisha Asparagus", pfp: avatar}
     ]
     return (
         <>
