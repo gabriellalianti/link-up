@@ -7,6 +7,7 @@ import logo from "../assets/1.png"
 import logout from "../assets/logout.svg"
 import avatar from "../assets/avatar-1.jpg"
 import { useNavigate } from "react-router-dom"
+import { useState } from "react";
 
 function Messages () {
     const navigate = useNavigate();
@@ -15,6 +16,21 @@ function Messages () {
         {name: "Lebron Huang", pfp: avatar},
         {name: "Alisha Asparagus", pfp: avatar}
     ]
+    const [chatMessages, setChatMessages] = useState([
+        { text: "aaaaa iaiiiiiii iiaiiiiiiai iaiaiai iioooooo ooi oiiiii", time: "12:32", sender: "other" },
+        { text: "iiaiaiai aiaiiiii ssss oooooooioii iiiiiiiii iiiiooooooo oaa", time: "12:45", sender: "me" },
+        { text: "aaa aa aiiiiii iiiiaiiiiiaia aiiaiai iiiooooo ooioiiiii", time: "14:05", sender: "other" },
+        { text: "eeeeeee eeeee aaaaa", time: "14:45", sender: "me" }
+    ]);
+    const [newMessage, setNewMessage] = useState("");
+    const sendMessage = () => {
+        if (newMessage.trim() !== "") {
+            const currentTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+            setChatMessages([...chatMessages, { text: newMessage, time: currentTime, sender: "me" }]);
+            setNewMessage("");
+        }
+    };
+
     return (
         <>
             <div className="flex flex-col w-screen h-screen">
@@ -98,40 +114,27 @@ function Messages () {
                     </div>
 
                     {/* Chat Messages */}
-                    <div className="flex flex-col flex-1 p-4 space-y-4 overflow-y-auto">
-                        <div className="flex flex-col">
-                        <span className="text-xs text-gray-500">12:32</span>
-                        <div className="bg-gray-200 text-black p-3 rounded-lg max-w-[60%]">
-                            aaaaa iaiiiiiii iiaiiiiiiai iaiaiai iioooooo ooi oiiiii
-                        </div>
-                        </div>
-                        <div className="flex flex-col items-end">
-                        <span className="text-xs text-gray-500">12:45</span>
-                        <div className="bg-yellow-200 text-black p-3 rounded-lg max-w-[60%]">
-                            iiaiaiai aiaiiiii ssss oooooooioii iiiiiiiii iiiiooooooo oaa
-                        </div>
-                        </div>
-                        <div className="flex flex-col">
-                        <span className="text-xs text-gray-500">14:05</span>
-                        <div className="bg-gray-200 text-black p-3 rounded-lg max-w-[60%]">
-                            aaa aa aiiiiii iiiiaiiiiiaia aiiaiai iiiooooo ooioiiiii
-                        </div>
-                        </div>
-                        <div className="flex flex-col items-end">
-                        <span className="text-xs text-gray-500">14:45</span>
-                        <div className="bg-yellow-200 text-black p-3 rounded-lg max-w-[60%]">
-                            eeeeeee eeeee aaaaa
-                        </div>
-                        </div>
+                     <div className="flex flex-col flex-1 p-4 space-y-4 overflow-y-auto">
+                         {chatMessages.map((msg, index) => (
+                            <div key={index} className={`flex flex-col ${msg.sender === "me" ? "items-end" : "items-start"}`}>
+                                <span className="text-xs text-gray-500">{msg.time}</span>
+                                <div className={`${msg.sender === "me" ? "bg-yellow-200" : "bg-gray-200"} text-black p-3 rounded-lg max-w-[60%]`}>{msg.text}</div>
+                            </div>
+                        ))}
                     </div>
+                    
+                    {/* Message Input */}
                     <div className="border-t p-3 flex items-center">
                         <input
-                        type="text"
-                        placeholder="Start typing..."
-                        className="flex-1 border rounded-full p-2 pl-4 outline-none bg-white"
+                            type="text"
+                            placeholder="Start typing..."
+                            className="flex-1 border rounded-full p-2 pl-4 outline-none bg-white"
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                         />
-                        <button className="ml-2 p-2 bg-gray-100 rounded-full">
-                        ➤
+                        <button className="ml-2 p-2 bg-gray-100 rounded-full" onClick={sendMessage}>
+                            ➤
                         </button>
                     </div>
                     </div>
