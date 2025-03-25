@@ -252,6 +252,7 @@ function MyLinks() {
   const [searchResultPeoples, setSearchResultsPeoples] = useState<{ name: string, major: string, links: string[], courses: string[] }[]>([]);
 
   useEffect(() => {
+    setUser(userData);
     setPeoples(peoplesData);
   }, [])
 

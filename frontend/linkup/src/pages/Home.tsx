@@ -141,7 +141,7 @@ function HomePage() {
 
         <div className="flex flex-row w-screen justify-center text-sm mt-2 gap-20">
             <div 
-                className="flex flex-col justify-center items-center rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
+                className="flex flex-col justify-center items-center border-b-2 border-black rounded-xl w-24 mt-2 hover:bg-black/5 transition cursor-pointer"
                 onClick={() => navigate('/home')}
             >
                 <img src={home} className="w-[25px]"/>
