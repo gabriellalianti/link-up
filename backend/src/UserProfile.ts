@@ -1,29 +1,34 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-// TypeScript interface
-interface IUserProfile {
-  profileName: string;
+// TypeScript interface for user profile
+interface IUserProfile extends Document {
+  userId: string;
+  name: string;
   yearOfStudy: string;
   degree: string;
-  yearOfBirth: Date;
+  dateOfBirth: Date;
   bio: string;
-  courses: string;
-  profilePicture?: string; // Optional field
-  userId: string;
+  courses: Array<string>;
+  links: Array<string>;
+  profilePicture?: string;
+  backgroundPicture?: string;
 }
 
-// Example MongoScheme
+// MongoDB Schema for user profile
 const UserProfileSchema = new Schema<IUserProfile>({
-  profileName: { type: String, required: true },
+  userId: { type: String, required: true, unique: true },  
+  name: { type: String, required: true }, 
   yearOfStudy: { type: String, required: true },
   degree: { type: String, required: true },
-  yearOfBirth: { type: Date, required: true },
+  dateOfBirth: { type: Date, required: true },
   bio: { type: String, required: true },
-  courses: { type: String, required: true },
-  profilePicture: { type: String }, 
-  userId: { type: String, required: true, unique: true }
+  courses: { type: [String], required: true }, 
+  links: { type: [String], default: [] }, 
+  profilePicture: { type: String },
+  backgroundPicture: { type: String },
 });
 
 // Create and export the Mongoose model
 const UserProfile = mongoose.model<IUserProfile>("UserProfile", UserProfileSchema, "Users");
+
 export default UserProfile;

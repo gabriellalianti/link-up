@@ -17,10 +17,12 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const UserProfile_1 = __importDefault(require("./src/UserProfile"));
 const uuidv4_1 = require("uuidv4");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
     origin: "http://localhost:5173", // Only allow this origin
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE",],
+    credentials: true
 }));
 app.use(express_1.default.json());
 const uri = "mongodb+srv://atmandy345:andy0304@linkup.z9xlt.mongodb.net/LinkUp?retryWrites=true&w=majority&appName=LinkUp";
@@ -32,9 +34,20 @@ mongoose_1.default.connect(uri)
 app.post("/api/profile", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const newUserProfile = new UserProfile_1.default(req.body);
+        console.log(newUserProfile);
         newUserProfile.userId = (0, uuidv4_1.uuid)();
+        const JWT_SECRET = "Hello you can steal this";
+        const token = jsonwebtoken_1.default.sign({ userId: newUserProfile.userId, username: newUserProfile.name }, JWT_SECRET, {
+            expiresIn: '1h', // EXPIRATION TIME !!!
+        });
         // saves the data mongo inbuilt
         yield newUserProfile.save();
+        res.cookie('token', token, {
+            httpOnly: false,
+            secure: false, // Set to true in production when using HTTPS
+            maxAge: 3600000, // 1 hour in milliseconds
+            sameSite: "lax", // KEEP THIS AS LAX DO NOT CHANGE TO NONE OR CHROME WILL FUCK YOU OVER
+        });
         res.status(201).json({ message: "Profile Created", profile: newUserProfile });
     }
     catch (error) {
@@ -42,13 +55,20 @@ app.post("/api/profile", (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 }));
 // Get Profile Info
-app.get("/api/getProfile", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/api/getProfile/:userId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userProfiles = yield UserProfile_1.default.find();
-        res.status(200).json({ profiles: userProfiles });
+        const userId = req.params.userId;
+        const userProfile = yield UserProfile_1.default.findOne({ userId });
+        console.log(userProfile);
+        if (userProfile) {
+            res.status(200).json(userProfile);
+        }
+        else {
+            res.status(404).json({ error: "User not found" });
+        }
     }
     catch (error) {
-        res.status(400).json({ error: "Unable to fetch profiles", details: error });
+        res.status(400).json({ error: "Unable to fetch profile", details: error });
     }
 }));
 // Start Server

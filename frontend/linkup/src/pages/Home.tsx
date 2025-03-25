@@ -14,23 +14,53 @@ import logo from "../assets/1.png"
 import logout from "../assets/logout.svg"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie"
+import { jwtDecode }from "jwt-decode";
 
 function HomePage() {
   const navigate = useNavigate();
   
-  const [profile, setProfile] = useState("1");
+  const [profile, setProfile] = useState<{
+    bio: string,
+    courses: string[],
+    name: string,
+    degree: string,
+    userId: string,
+    dateOfBirth: string,
+    yearOfStudy: string,
+    links: string[],
+    __v: string,
+    _id: string,
+  }>({
+    bio: "",
+    courses: [],
+    degree: "",
+    name: "",
+    userId: "",
+    dateOfBirth: "",
+    yearOfStudy: "",
+    links: [],
+    __v: "",
+    _id: ""
+  });
   useEffect (() => {
     const fetchProfile = async () => {
       try {
-          const response = await fetch("http://localhost:5001/api/getProfile", {
+          const cooks = Cookies.get("token")
+          if (cooks) {
+            const decodedToken = jwtDecode(cooks);
+            const userId = decodedToken.userId;
+            console.log(userId);
+            const response = await fetch(`http://localhost:5001/api/getProfile/${userId}`, {
               method: "GET",
               headers: { "Content-Type": "application/json" },
-          });
+            });
   
-          if (response.ok) {
-              const data = await response.json();  
-              setProfile(data);
-              console.log(profile);
+            if (response.ok) {
+                const data = await response.json();  
+                console.log(data);
+                setProfile(data);
+            }
           }
       } catch (error) {
           console.error("Error submitting form:", error);
@@ -174,19 +204,18 @@ function HomePage() {
                   <AvatarImage src="https://via.placeholder.com/80" />
                   <AvatarFallback>FN</AvatarFallback>
                 </Avatar>
-                <h1 className="text-xl font-bold mt-4">Full Name</h1>
-                <p className="text-sm text-gray-700">Age years old</p>
+                <h1 className="text-xl font-bold mt-4">{profile.name}</h1>
+                <p className="text-sm text-gray-700">{ profile.dateOfBirth }</p>
               </div>
             </CardHeader>
             <CardContent>
               <div className="flex items-start justify-between">
                 <div>
-                  <p>Title of Studies</p>
-                  <p>Year of Studies</p>
+                  <p> {profile.degree} </p>
+                  <p> {profile.yearOfStudy} </p>
                 </div>
                 <div className="flex flex-wrap gap-2 max-w-[50%] justify-end items-start">
-                  {["COMP6080", "COMP3311", "COMP2511"]
-                    .slice(0, Math.floor(Math.random() * 3) + 1)
+                  {profile.courses
                     .map((course) => (
                       <Card key={course} className="px-2 py-1 bg-gray-200 rounded-md text-xs font-semibold flex items-center">
                         {course}
@@ -197,7 +226,7 @@ function HomePage() {
             </CardContent>
             <div className="bg-white p-4 mt-2 rounded-lg shadow-sm border border-gray-200 w-[90%] mx-auto mb-4">
               <h3 className="text-lg font-bold">Bio</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a est et diam ullamcorper.</p>
+              <p> {profile.bio} </p>
             </div>
           </Card>
         </div>

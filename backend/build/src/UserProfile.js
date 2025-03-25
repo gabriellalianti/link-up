@@ -34,16 +34,18 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
-// Example MongoScheme
+// MongoDB Schema for user profile
 const UserProfileSchema = new mongoose_1.Schema({
-    profileName: { type: String, required: true },
+    userId: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
     yearOfStudy: { type: String, required: true },
     degree: { type: String, required: true },
-    yearOfBirth: { type: Date, required: true },
+    dateOfBirth: { type: Date, required: true },
     bio: { type: String, required: true },
-    courses: { type: String, required: true },
+    courses: { type: [String], required: true },
+    links: { type: [String], default: [] },
     profilePicture: { type: String },
-    userId: { type: String, required: true, unique: true }
+    backgroundPicture: { type: String },
 });
 // Create and export the Mongoose model
 const UserProfile = mongoose_1.default.model("UserProfile", UserProfileSchema, "Users");
