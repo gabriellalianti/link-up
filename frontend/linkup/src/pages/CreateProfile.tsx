@@ -128,7 +128,7 @@ function CreateProfile() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Email</label>
-                  <Input name="email" value={formData.email} onChange={handleChange} className="bg-gray-100" />
+                  <Input name="email" value={formData.email} onChange={handleChange} className="bg-white" />
                 </div>
 
                 <div>

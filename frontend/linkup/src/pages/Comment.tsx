@@ -3,7 +3,8 @@ import { Card, CardHeader, CardContent, CardFooter } from "../components/compone
 import { Button } from "../components/components/ui/button";
 import { Input } from "../components/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "../components/components/ui/avatar";
-
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 // Helper to format the timestamp into a relative time string.
 function formatTime(timestamp) {
   const diff = Date.now() - timestamp;
@@ -35,6 +36,65 @@ function countAllComments(comments) {
 }
 
 function SinglePost({ postData }) {
+  const [profile, setProfile] = useState<{
+    bio: string,
+    courses: string[],
+    name: string,
+    degree: string,
+    userId: string,
+    dateOfBirth: string,
+    yearOfStudy: string,
+    email: string,
+    profilePicture: string,
+    links: string[],
+    __v: string,
+    _id: string,
+  }>({
+    bio: "",
+    courses: [],
+    degree: "",
+    name: "",
+    userId: "",
+    dateOfBirth: "",
+    yearOfStudy: "",
+    email: "",
+    profilePicture: "",
+    links: [],
+    __v: "",
+    _id: ""
+  });
+  
+  useEffect (() => {
+      const fetchProfile = async () => {
+        try {
+            const cooks = Cookies.get("token")
+            if (cooks) {
+              const decodedToken = jwtDecode(cooks);
+              const userId = decodedToken.userId;
+              console.log(userId);
+              const response = await fetch(`http://localhost:5001/api/getProfile/${userId}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+              });
+    
+              if (response.ok) {
+                  const data = await response.json();  
+                  const date = new Date(data.dateOfBirth);
+  
+                  const formattedDate = date.toISOString().split('T')[0];
+  
+                  data.dateOfBirth = formattedDate;
+                  console.log(data.profilePicture)
+                  console.log(data);
+                  setProfile(data);
+              }
+            }
+        } catch (error) {
+            console.error("Error submitting form:", error);
+        }
+      }
+      fetchProfile();
+    }, [])
   const [isLiked, setIsLiked] = useState(false);
   const [likes, setLikes] = useState(0);
   const [showCommentSection, setShowCommentSection] = useState(false);
@@ -97,12 +157,12 @@ function SinglePost({ postData }) {
       <CardHeader>
         <div className="flex items-center gap-4">
           <Avatar className="w-16 h-16">
-            <AvatarImage src="https://via.placeholder.com/40" />
+            <AvatarImage src={profile.profilePicture} />
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
           <div>
-            <h2 className="text-xl font-bold">User Name</h2>
-            <h3 className="text-lg">Studies Something</h3>
+            <h2 className="text-xl font-bold">{profile.name}</h2>
+            <h3 className="text-lg">{profile.degree}</h3>
             <p className="text-sm text-gray-500">
               {postData && postData.timestamp ? formatTime(postData.timestamp) : "Just now"}
             </p>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardHeader, CardContent } from "../components/components/ui/card";
 import { Button } from "../components/components/ui/button";
 import { Input } from "../components/components/ui/input";
@@ -6,6 +6,9 @@ import { Avatar, AvatarImage, AvatarFallback } from "../components/components/ui
 import { Eye, EyeOff, Camera } from "lucide-react";
 import { useNavigate } from "react-router-dom"
 import backgroundImg from "../assets/defaultbackgroundimg.png"
+import Cookies from "js-cookie";
+import { jwtDecode  } from "jwt-decode";
+import bg from "../assets/backgroundProfile.jpeg"
 
 function UpdateProfile() {
   const [profilePic, setProfilePic] = useState(null);
@@ -15,13 +18,72 @@ function UpdateProfile() {
   const [studiesTitle, setStudiesTitle] = useState("");
   const [yearOfStudies, setYearOfStudies] = useState("");
   const [bio, setBio] = useState("");
-  const [courses, setCourses] = useState(["", "", "", ""]);
+  const [courses, setCourses] = useState(["", "", ""]);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   // Email from previous page (fixed for now - call from db?)
-  const email = "z1234567@ad.unsw.edu.au";
+
+  const [profile, setProfile] = useState<{
+      bio: string,
+      courses: string[],
+      name: string,
+      degree: string,
+      userId: string,
+      dateOfBirth: string,
+      yearOfStudy: string,
+      email: string,
+      profilePicture: string,
+      links: string[],
+      __v: string,
+      _id: string,
+    }>({
+      bio: "",
+      courses: [],
+      degree: "",
+      name: "",
+      userId: "",
+      dateOfBirth: "",
+      yearOfStudy: "",
+      email: "",
+      profilePicture: "",
+      links: [],
+      __v: "",
+      _id: ""
+    });
+  
+    useEffect (() => {
+      const fetchProfile = async () => {
+        try {
+            const cooks = Cookies.get("token")
+            if (cooks) {
+              const decodedToken = jwtDecode(cooks);
+              const userId = decodedToken.userId;
+              console.log(userId);
+              const response = await fetch(`http://localhost:5001/api/getProfile/${userId}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+              });
+    
+              if (response.ok) {
+                  const data = await response.json();  
+                  const date = new Date(data.dateOfBirth);
+  
+                  const formattedDate = date.toISOString().split('T')[0];
+  
+                  data.dateOfBirth = formattedDate;
+                  console.log(data.profilePicture)
+                  console.log(data);
+                  setProfile(data);
+              }
+            }
+        } catch (error) {
+            console.error("Error submitting form:", error);
+        }
+      }
+      fetchProfile();
+    }, [])
 
   const handleBackgroundImageChange = (e) => {
     const file = e.target.files[0];
@@ -81,7 +143,7 @@ function UpdateProfile() {
                 <div className="w-full h-[150px] overflow-hidden rounded-t-xl">
                   <img
                     className="w-full h-full object-cover"
-                    src={backgroundImage || backgroundImg}
+                    src={bg}
                     alt="Background"
                   />
 
@@ -109,7 +171,8 @@ function UpdateProfile() {
                   </Avatar>
                 ) : (
                   <Avatar
-                    className="absolute w-40 h-40 border border-black rounded-full left-4 top-[72px]">
+                    className="absolute w-40 h-40 border border-black rounded-full left-4 top-[72px]" >
+                      <AvatarImage src={profile.profilePicture} alt="Profile Picture" />
                     <AvatarFallback>Profile Picture</AvatarFallback>
                   </Avatar>
                 )}
@@ -139,7 +202,7 @@ function UpdateProfile() {
                       <Input
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
-                        placeholder="Enter your full name"
+                        placeholder={profile.name}
                         className="w-full"
                       />
                     </div>
@@ -149,8 +212,8 @@ function UpdateProfile() {
                         Date of Birth
                       </label>
                       <Input
-                        type="date"
                         value={dob}
+                        placeholder={profile.dateOfBirth}
                         onChange={(e) => setDob(e.target.value)}
                         className="w-full custom-date"
                       />
@@ -166,7 +229,7 @@ function UpdateProfile() {
                   <Input
                     value={studiesTitle}
                     onChange={(e) => setStudiesTitle(e.target.value)}
-                    placeholder="e.g. Bachelor of Computer Science"
+                    placeholder={profile.degree}
                     className="w-full"/>
                 </div>
 
@@ -175,7 +238,7 @@ function UpdateProfile() {
                   <Input
                     value={yearOfStudies}
                     onChange={(e) => setYearOfStudies(e.target.value)}
-                    placeholder="e.g. Year 2 Term 2"
+                    placeholder={profile.yearOfStudy}
                     className="w-full"/>
                 </div>
 
@@ -190,9 +253,9 @@ function UpdateProfile() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Courses (up to 4 - e.g. COMP1511)</label>
+                  <label className="block text-sm font-medium text-gray-700">Courses (up to 3 - e.g. COMP1511)</label>
                   <div className="flex gap-2">
-                    {courses.map((course, index) => (
+                    {profile.courses.map((course, index) => (
                       <Input
                         key={index}
                         value={course}
@@ -205,7 +268,7 @@ function UpdateProfile() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Email</label>
-                  <Input value={email} readOnly className="bg-gray-100" />
+                  <Input value={profile.email} readOnly className="bg-gray-100" />
                 </div>
 
                 <div>
@@ -232,7 +295,10 @@ function UpdateProfile() {
               </div>
             </div>
 
-            <div className="flex justify-end" onClick={() => navigate('/home')}>
+            <div className="flex justify-between" onClick={() => navigate('/home')}>
+              <Button type="submit" className="bg-yellow-300 text-black" onClick={() => navigate("/home")} >
+                Back
+              </Button>
               <Button type="submit" className="bg-yellow-300 text-black">
                 Update Profile
               </Button>

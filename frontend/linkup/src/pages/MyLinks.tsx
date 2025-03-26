@@ -28,10 +28,10 @@ function MyLinks() {
       backgroundPic: "",
       profilePic: "",
     },
-    { name: "user2", 
-      major: "This is the second card", 
+    { name: "John Mayer", 
+      major: "Computer Science", 
       userId: "fapncsa",
-      links: ["user1", "user2"], 
+      links: ["user3", "user2"], 
       courses: ["COMP1511", "COMP1521", "COMP1541"],
       dateOfBirth: "",
       bio: "",
@@ -39,18 +39,18 @@ function MyLinks() {
       profilePic: ""
 
     },
-    { name: "user3", 
-      major: "This is the third card", 
+    { name: "Michael Tanto", 
+      major: "Computer Science", 
       userId: "fapncsa",
-      links: ["user1", "user3"], 
+      links: ["user4", "user3"], 
       courses: ["COMP1511", "COMP1521", "COMP1541"],
       dateOfBirth: "",
       bio: "",
       backgroundPic: "",
       profilePic: ""
     },
-    { name: "user4", 
-      major: "This is the fourth card", 
+    { name: "Melanie Martinez", 
+      major: "Fashion Design", 
       userId: "fapncsa",
       links: ["user4", "user3"], 
       courses: ["COMP1511", "COMP1521", "COMP1531"],
@@ -59,8 +59,8 @@ function MyLinks() {
       backgroundPic: "",
       profilePic: ""
     },
-    { name: "user5", 
-      major: "This is the fifth card", 
+    { name: "Jerremy Christian", 
+      major: "Mechatronics Engineering", 
       userId: "fapncsa",
       links: ["user3", "user2"], 
       courses: ["COMP1511", "COMP1521", "COMP1531"],
@@ -69,8 +69,8 @@ function MyLinks() {
       backgroundPic: "",
       profilePic: ""
     },
-    { name: "user6", 
-      major: "This is the sixth card", 
+    { name: "Dicko", 
+      major: "Computer Science", 
       userId: "fapncsa",
       links: ["user3", "user2"], 
       courses: ["COMP1511", "COMP1521", "COMP1531"],
@@ -79,8 +79,8 @@ function MyLinks() {
       backgroundPic: "",
       profilePic: ""
     },
-    { name: "user7", 
-      major: "This is the seventh card", 
+    { name: "Justin Hartono", 
+      major: "Civil Engineering", 
       userId: "fapncsa",
       links: ["user5", "user2"], 
       courses: ["COMP1511", "COMP1521", "COMP1531"],
@@ -219,7 +219,7 @@ function MyLinks() {
                   const formattedDate = date.toISOString().split('T')[0];
   
                   data.dateOfBirth = formattedDate;
-                  console.log(data.profilePicture)
+                  console.log(data.courses);
                   console.log(data);
                   setProfile(data);
               }

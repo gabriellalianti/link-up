@@ -5,6 +5,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "../components/components/ui
 import { ScrollArea } from "../components/components/ui/scroll-area";
 import { Home, MessageCircle, Bell, Users, Edit } from "lucide-react";
 import backgroundImage from "../assets/backgroundProfile.jpeg"
+import tradeDesk from "../assets/tradeDesk.webp"
 
 import {
   Dialog,
@@ -125,11 +126,10 @@ function HomePage() {
 
 
   const [people, setPeople] = useState([
-    { name: "Lebron James", pfp: avatar1 },
-    { name: "Stephen Curry", pfp: avatar2 },
-    { name: "Luka Doncic", pfp: avatar3 }
+    { name: "Michelle Lie", pfp: backgroundImage },
+    { name: "Stephen Smith", pfp: avatar2 },
+    { name: "Bruce Koe", pfp:  tradeDesk}
   ]);
-
   const handleRemove = (name) => {
     setPeople((prevPeople) => prevPeople.filter((person) => person.name !== name));
   };
